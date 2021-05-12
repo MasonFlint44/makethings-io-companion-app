@@ -6,53 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:text="@string/devices"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--    <ProgressBar-->
-<!--        android:id="@+id/wifiScanProgress"-->
-<!--        style="?android:attr/progressBarStyle"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:maxWidth="48dp"-->
-<!--        android:maxHeight="48dp"-->
-<!--        android:minWidth="48dp"-->
-<!--        android:minHeight="48dp"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textView" />-->
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/scanResultsView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="320dp"-->
-<!--        android:clipToPadding="false"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textView" />-->
-
-    <fragment
-        android:id="@+id/wifiScanFragment"
-        android:name="makethings.io.fragments.wifiscan.WifiScanFragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/deviceScanFragment"
+        android:name="makethings.io.fragments.devicescan.DeviceScanFragment"
         android:layout_width="match_parent"
         android:layout_height="320dp"
-        tools:layout="@layout/wifi_scan_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/device_scan_fragment" />
 
-        <EditText
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/wifiScanFragment"-->
+<!--        android:name="makethings.io.fragments.wifiscan.WifiScanFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="320dp"-->
+<!--        tools:layout="@layout/wifi_scan_fragment"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/deviceScanFragment"/>-->
+
+    <EditText
             android:id="@+id/wifiSsid"
             android:layout_width="wrap_content"
             android:layout_height="45dp"
@@ -62,7 +38,7 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wifiScanFragment" />
+            app:layout_constraintTop_toBottomOf="@+id/deviceScanFragment" />
 
         <EditText
             android:id="@+id/wifiPassword"

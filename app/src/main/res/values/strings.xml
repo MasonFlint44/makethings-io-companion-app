@@ -5,4 +5,5 @@
     <string name="passwordInputHint">Password</string>
     <string name="connect_button_text">Connect device</string>
     <string name="devices">Devices:</string>
+    <string name="no_devices_found">No devices found</string>
 </resources>

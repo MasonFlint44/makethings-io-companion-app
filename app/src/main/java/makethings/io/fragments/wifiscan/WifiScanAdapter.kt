@@ -10,9 +10,9 @@ import makethings.io.R
 import makethings.io.wifi.WifiFreq
 import makethings.io.wifi.WifiScanResult
 
-class WifiScanResultsAdapter (
+class WifiScanAdapter (
     private val onItemClicked: (WifiScanResult) -> Unit
-): RecyclerView.Adapter<WifiScanResultsAdapter.ViewHolder>() {
+): RecyclerView.Adapter<WifiScanAdapter.ViewHolder>() {
     inner class ViewHolder(
             view: View,
             onItemClicked: (Int) -> Unit
