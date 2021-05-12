@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">makethings.io</string>
+    <string name="serverSwitchLabel">Server</string>
+    <string name="ssidInputHint">SSID</string>
+    <string name="passwordInputHint">Password</string>
+    <string name="connect_button_text">Connect device</string>
+    <string name="devices">Devices:</string>
+</resources>
