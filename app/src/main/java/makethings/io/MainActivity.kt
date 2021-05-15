@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         pauseServer()
     }
 
+    @ExperimentalCoroutinesApi
     private fun startWifiScan() {
         deviceScanViewModel.scanResults.value = emptyList()
         wifiScanViewModel.scanResults.value = emptyList()
@@ -98,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     private fun pauseServer() {
         lifecycleScope.launch(Dispatchers.IO) {
             Log.d(tag,"Stopping server on port $port")
-            server?.stop(5000, 5000)
+            server.stop(5000, 5000)
         }
     }
 

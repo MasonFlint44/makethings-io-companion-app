@@ -1,16 +1,21 @@
 package makethings.io.fragments.wifiscan
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import makethings.io.R
 import makethings.io.wifi.WifiFreq
+import makethings.io.wifi.WifiLevel
 import makethings.io.wifi.WifiScanResult
 
 class WifiScanAdapter (
+    private val context: Context,
     private val onItemClicked: (WifiScanResult) -> Unit
 ): RecyclerView.Adapter<WifiScanAdapter.ViewHolder>() {
     inner class ViewHolder(
@@ -20,6 +25,7 @@ class WifiScanAdapter (
         val scanResultLayout: LinearLayout = itemView.findViewById(R.id.scanResultLayout)
         val scanResultText: TextView = itemView.findViewById(R.id.scanResultText)
         val scanResultFreq: TextView = itemView.findViewById(R.id.scanResultFreq)
+        val scanResultLevel: ImageView = itemView.findViewById(R.id.scanResultLevel)
 
         init {
             itemView.setOnClickListener {
@@ -64,6 +70,16 @@ class WifiScanAdapter (
                 holder.scanResultFreq.isEnabled = false
             }
         }
+
+        val wifiLevelDrawable = when(scanResult.level) {
+            WifiLevel.NONE -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_0_bar_24)
+            WifiLevel.WEAK -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_1_bar_24)
+            WifiLevel.FAIR -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_2_bar_24)
+            WifiLevel.GOOD -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_3_bar_24)
+            WifiLevel.EXCELLENT -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_4_bar_24)
+            else -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_0_bar_24)
+        }
+        holder.scanResultLevel.setImageDrawable(wifiLevelDrawable)
     }
 
     override fun getItemCount(): Int {

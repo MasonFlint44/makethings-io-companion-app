@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scanResultLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
@@ -27,4 +30,12 @@
         android:layout_marginBottom="4dp"
         android:layout_weight="1"
         android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/scanResultLevel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/twotone_signal_wifi_0_bar_24"
+        tools:ignore="ContentDescription" />
 </LinearLayout>

@@ -14,11 +14,11 @@ data class WifiScanResult(val ssid: String, val exactFreq: Int, val exactLevel: 
 
     private fun getWifiLevel(level: Int): WifiLevel {
         return when {
-            level <= -42 -> WifiLevel.EXCELLENT
-            level <= -54 -> WifiLevel.GOOD
-            level <= -65 -> WifiLevel.FAIR
-            level <= -77 -> WifiLevel.NONE
-            else -> WifiLevel.UNKNOWN
+            level > -44 -> WifiLevel.EXCELLENT
+            level > -55 -> WifiLevel.GOOD
+            level > -72 -> WifiLevel.FAIR
+            level > -86 -> WifiLevel.WEAK
+            else -> WifiLevel.NONE
         }
     }
 }

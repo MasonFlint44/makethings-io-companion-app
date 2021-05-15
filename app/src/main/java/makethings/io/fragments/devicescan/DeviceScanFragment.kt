@@ -1,5 +1,6 @@
 package makethings.io.fragments.devicescan
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import makethings.io.wifi.WifiFreq
 
 // TODO: add signal strength icons
 // TODO: add wifi security to ui
+// TODO: might want to make scanResultsView's height match_parent - recyclerview doesn't take up entire area of fragment
 class DeviceScanFragment : Fragment() {
     private val deviceSsid = "makethings-io"
     private val viewModel: DeviceScanViewModel by activityViewModels()
@@ -25,6 +27,14 @@ class DeviceScanFragment : Fragment() {
     private lateinit var wifiScanProgress: ProgressBar
     private lateinit var emptyResultsMessage: TextView
     private lateinit var scanResultsAdapter: DeviceScanAdapter
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        scanResultsAdapter = DeviceScanAdapter(context) { scanResult ->
+            viewModel.deviceClicked.value = scanResult
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,15 +70,12 @@ class DeviceScanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         scanResultsView = view.findViewById(R.id.scanResultsView)
-        wifiScanProgress = view.findViewById(R.id.wifiScanProgress)
-        emptyResultsMessage = view.findViewById(R.id.emtpyResultsMessage)
-
-        scanResultsAdapter = DeviceScanAdapter { scanResult ->
-            viewModel.deviceClicked.value = scanResult
-        }
         scanResultsView.adapter = scanResultsAdapter
         scanResultsView.layoutManager = LinearLayoutManager(activity)
         scanResultsView.itemAnimator = OvershootInRightAnimator()
+
+        wifiScanProgress = view.findViewById(R.id.wifiScanProgress)
+        emptyResultsMessage = view.findViewById(R.id.emtpyResultsMessage)
     }
 
 }

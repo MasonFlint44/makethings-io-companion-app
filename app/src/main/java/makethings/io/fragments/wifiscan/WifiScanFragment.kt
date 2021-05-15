@@ -26,6 +26,9 @@ class WifiScanFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         wifiService = WifiService(context.applicationContext)
+        scanResultsAdapter = WifiScanAdapter(context) { scanResult ->
+            viewModel.scanResultClicked.value = scanResult
+        }
     }
 
     override fun onCreateView(
@@ -50,13 +53,10 @@ class WifiScanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         scanResultsView = view.findViewById(R.id.scanResultsView)
-        wifiScanProgress = view.findViewById(R.id.wifiScanProgress)
-
-        scanResultsAdapter = WifiScanAdapter { scanResult ->
-            viewModel.scanResultClicked.value = scanResult
-        }
         scanResultsView.adapter = scanResultsAdapter
         scanResultsView.layoutManager = LinearLayoutManager(activity)
         scanResultsView.itemAnimator = OvershootInRightAnimator()
+
+        wifiScanProgress = view.findViewById(R.id.wifiScanProgress)
     }
 }
