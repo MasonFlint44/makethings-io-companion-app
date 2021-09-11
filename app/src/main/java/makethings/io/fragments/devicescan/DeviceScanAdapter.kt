@@ -28,11 +28,16 @@ class DeviceScanAdapter(
 
         init {
             itemView.setOnClickListener {
+                notifyItemChanged(selectedPosition)
+                selectedPosition = adapterPosition
+                notifyItemChanged(adapterPosition)
+
                 onItemClicked(adapterPosition)
             }
         }
     }
 
+    private var selectedPosition = RecyclerView.NO_POSITION
     var scanResults: List<WifiScanResult> = emptyList()
         set(value) {
             notifyItemRangeRemoved(0, field.count())
@@ -71,6 +76,7 @@ class DeviceScanAdapter(
             else -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_0_bar_24)
         }
         holder.scanResultLevel.setImageDrawable(wifiLevelDrawable)
+        holder.itemView.isSelected = selectedPosition == position
     }
 
     override fun getItemCount(): Int {

@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
@@ -40,7 +41,7 @@ class DeviceScanFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.scanResults.observe(viewLifecycleOwner, Observer { scanResults ->
+        viewModel.scanResults.observe(viewLifecycleOwner, { scanResults ->
             val results = scanResults.filter { it.ssid == deviceSsid && it.freq == WifiFreq.FREQ_2_4_GHZ }
             results.sortedByDescending { it.exactLevel }
             scanResultsAdapter.scanResults = results
@@ -48,7 +49,7 @@ class DeviceScanFragment : Fragment() {
                 results.isEmpty() -> emptyResultsMessage.visibility = View.VISIBLE
             }
         })
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
+        viewModel.loading.observe(viewLifecycleOwner, {
             when(it) {
                 true -> {
                     wifiScanProgress.visibility = View.VISIBLE

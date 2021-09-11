@@ -5,59 +5,79 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import io.ktor.application.*
-import io.ktor.features.*
-import io.ktor.response.*
-import io.ktor.routing.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import io.ktor.gson.*
 import kotlinx.coroutines.*
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import makethings.io.fragments.devicescan.DeviceScanViewModel
 import makethings.io.fragments.wifiscan.WifiScanViewModel
 import makethings.io.wifi.WifiService
+import mqtt.broker.Broker
 
-data class WifiCredentials(val ssid: String, val password: String)
+//data class WifiCredentials(val ssid: String, val password: String)
 
 class MainActivity : AppCompatActivity() {
     private val tag = "MainActivity"
-    private val port = 22983
+//    private val port = 22983
     private val deviceScanViewModel: DeviceScanViewModel by viewModels()
     private val wifiScanViewModel: WifiScanViewModel by viewModels()
-    private lateinit var server: NettyApplicationEngine
+//    private lateinit var server: NettyApplicationEngine
+    private lateinit var broker: Broker
     private lateinit var wifiService: WifiService
-    private lateinit var wifiSsid: EditText
-    private lateinit var wifiPassword: EditText
+//    private lateinit var wifiSsid: EditText
+//    private lateinit var wifiPassword: EditText
+    private lateinit var floatingActionButton: FloatingActionButton
+    private lateinit var bottomAppBar: BottomAppBar
 
+//    override fun onEnterAnimationComplete() {
+//        super.onEnterAnimationComplete()
+//        bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+//    }
+
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         wifiService = WifiService(applicationContext)
 
-        wifiSsid = findViewById(R.id.wifiSsid)
-        wifiPassword = findViewById(R.id.wifiPassword)
+//        wifiSsid = findViewById(R.id.wifiSsid)
+//        wifiPassword = findViewById(R.id.wifiPassword)
+
+        floatingActionButton = findViewById(R.id.floatingActionButton)
+        floatingActionButton.isEnabled = false
+        floatingActionButton.setOnClickListener {
+            Log.d(tag, "button clicked")
+        }
+
+        bottomAppBar = findViewById(R.id.bottomAppBar)
 
         ensurePermission(Manifest.permission.ACCESS_FINE_LOCATION)
         startWifiScan()
+
+//        lifecycleScope.launch {
+//            delay(10000)
+////            floatingActionButton.visibility = View.VISIBLE
+//
+//        }
     }
 
     override fun onResume() {
         super.onResume()
-        startServer()
+//        startServer()
+        broker = startBroker()
     }
 
     override fun onPause() {
         super.onPause()
-        pauseServer()
+//        pauseServer()
+        stopBroker(broker)
     }
 
     @ExperimentalCoroutinesApi
@@ -80,28 +100,42 @@ class MainActivity : AppCompatActivity() {
             .launchIn(lifecycleScope)
     }
 
-    private fun startServer() {
+    private fun startBroker(): Broker{
+        broker = Broker()
         lifecycleScope.launch(Dispatchers.IO) {
-            Log.d(tag,"Starting server on port $port")
-            server = embeddedServer(Netty, port = port) {
-                install(ContentNegotiation) {
-                    gson { }
-                }
-                routing {
-                    get("/GetWifiCredentials") {
-                        call.respond(WifiCredentials(wifiSsid.text.toString(), wifiPassword.text.toString()))
-                    }
-                }
-            }.start()
+            Log.d(tag, "Starting MQTT broker...")
+            broker.listen()
         }
+        return broker
     }
 
-    private fun pauseServer() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            Log.d(tag,"Stopping server on port $port")
-            server.stop(5000, 5000)
-        }
+//    private fun startServer() {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            Log.d(tag,"Starting server on port $port")
+//            server = embeddedServer(Netty, port = port) {
+//                install(ContentNegotiation) {
+//                    gson { }
+//                }
+//                routing {
+//                    get("/GetWifiCredentials") {
+////                        call.respond(WifiCredentials(wifiSsid.text.toString(), wifiPassword.text.toString()))
+//                    }
+//                }
+//            }.start()
+//        }
+//    }
+
+    private fun stopBroker(broker: Broker) {
+        broker.stop()
+        Log.d(tag, "Stopping MQTT broker")
     }
+
+//    private fun pauseServer() {
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            Log.d(tag,"Stopping server on port $port")
+//            server.stop(5000, 5000)
+//        }
+//    }
 
     private fun ensurePermission(permission: String) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) { return }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,56 +11,64 @@
         android:name="makethings.io.fragments.devicescan.DeviceScanFragment"
         android:layout_width="match_parent"
         android:layout_height="320dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/device_scan_fragment" />
 
-<!--    <androidx.fragment.app.FragmentContainerView-->
-<!--        android:id="@+id/wifiScanFragment"-->
-<!--        android:name="makethings.io.fragments.wifiscan.WifiScanFragment"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="320dp"-->
-<!--        tools:layout="@layout/wifi_scan_fragment"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/deviceScanFragment"/>-->
+    <!--    <androidx.fragment.app.FragmentContainerView-->
+    <!--        android:id="@+id/wifiScanFragment"-->
+    <!--        android:name="makethings.io.fragments.wifiscan.WifiScanFragment"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="320dp"-->
+    <!--        tools:layout="@layout/wifi_scan_fragment"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/deviceScanFragment"/>-->
 
-    <EditText
-            android:id="@+id/wifiSsid"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:autofillHints="username"
-            android:ems="10"
-            android:hint="@string/ssidInputHint"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deviceScanFragment" />
+    <!--    <EditText-->
+    <!--        android:id="@+id/wifiSsid"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="45dp"-->
+    <!--        android:autofillHints="username"-->
+    <!--        android:ems="10"-->
+    <!--        android:hint="@string/ssidInputHint"-->
+    <!--        android:inputType="textPersonName" />-->
 
-        <EditText
-            android:id="@+id/wifiPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginTop="8dp"
-            android:autofillHints="password"
-            android:ems="10"
-            android:hint="@string/passwordInputHint"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wifiSsid" />
+    <!--    <EditText-->
+    <!--        android:id="@+id/wifiPassword"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="45dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:autofillHints="password"-->
+    <!--        android:ems="10"-->
+    <!--        android:hint="@string/passwordInputHint"-->
+    <!--        android:inputType="textPassword" />-->
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/connect_button_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wifiPassword" />
+    <!--    <Button-->
+    <!--        android:id="@+id/button"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:layout_marginTop="32dp"-->
+    <!--        android:text="@string/connect_button_text" />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@color/fab_button_background"
+        app:layout_anchor="@+id/bottomAppBar"
+        app:srcCompat="@drawable/ic_baseline_arrow_forward_24"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:fabAlignmentMode="end"
+        app:fabAnimationMode="slide"
+        app:fabCradleMargin="8dp"
+        app:fabCradleRoundedCornerRadius="16dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

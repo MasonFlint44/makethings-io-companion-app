@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.17962962962962964" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_0_bar_24.xml" value="0.17962962962962964" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable/device_scan_result.xml" value="0.17962962962962964" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.17962962962962964" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17962962962962964" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/activity_main.xml" value="0.23278985507246377" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/device_scan_fragment.xml" value="0.536" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/device_scan_result.xml" value="0.2" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_scan_result.xml" value="0.23278985507246377" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

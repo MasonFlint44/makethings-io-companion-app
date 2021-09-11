@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="10dp"
     tools:context=".fragments.devicescan.DeviceScanFragment">
 
     <TextView
@@ -23,6 +24,7 @@
         android:maxHeight="48dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
+        android:paddingTop="10dp"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
