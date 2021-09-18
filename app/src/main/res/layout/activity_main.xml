@@ -6,49 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/deviceScanFragment"
-        android:name="makethings.io.fragments.devicescan.DeviceScanFragment"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/wizardPager"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
-        tools:layout="@layout/device_scan_fragment" />
-
-    <!--    <androidx.fragment.app.FragmentContainerView-->
-    <!--        android:id="@+id/wifiScanFragment"-->
-    <!--        android:name="makethings.io.fragments.wifiscan.WifiScanFragment"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="320dp"-->
-    <!--        tools:layout="@layout/wifi_scan_fragment"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintHorizontal_bias="0.0"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/deviceScanFragment"/>-->
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/wifiSsid"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="45dp"-->
-    <!--        android:autofillHints="username"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/ssidInputHint"-->
-    <!--        android:inputType="textPersonName" />-->
-
-    <!--    <EditText-->
-    <!--        android:id="@+id/wifiPassword"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="45dp"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:autofillHints="password"-->
-    <!--        android:ems="10"-->
-    <!--        android:hint="@string/passwordInputHint"-->
-    <!--        android:inputType="textPassword" />-->
-
-    <!--    <Button-->
-    <!--        android:id="@+id/button"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="48dp"-->
-    <!--        android:layout_marginTop="32dp"-->
-    <!--        android:text="@string/connect_button_text" />-->
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

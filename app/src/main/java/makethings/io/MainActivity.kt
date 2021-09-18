@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.launchIn
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 //    private lateinit var wifiPassword: EditText
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
+    private lateinit var wizardPagerAdapter: WizardPagerAdapter
 
 //    override fun onEnterAnimationComplete() {
 //        super.onEnterAnimationComplete()
@@ -50,11 +52,21 @@ class MainActivity : AppCompatActivity() {
 //        wifiSsid = findViewById(R.id.wifiSsid)
 //        wifiPassword = findViewById(R.id.wifiPassword)
 
+        val wizardPager = findViewById<ViewPager2>(R.id.wizardPager)
+        wizardPagerAdapter = WizardPagerAdapter(this)
+        wizardPager.adapter = wizardPagerAdapter
+
         floatingActionButton = findViewById(R.id.floatingActionButton)
         floatingActionButton.isEnabled = false
         floatingActionButton.setOnClickListener {
             Log.d(tag, "button clicked")
+            wizardPagerAdapter.pageIndex++
         }
+
+        deviceScanViewModel.deviceClicked.observe(this, {
+            Log.d(tag, "device clicked")
+            floatingActionButton.isEnabled = true
+        })
 
         bottomAppBar = findViewById(R.id.bottomAppBar)
 
@@ -78,6 +90,14 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
 //        pauseServer()
         stopBroker(broker)
+    }
+
+    override fun onBackPressed() {
+        if (wizardPagerAdapter.pageIndex == 0) {
+            super.onBackPressed()
+            return
+        }
+        wizardPagerAdapter.pageIndex--
     }
 
     @ExperimentalCoroutinesApi

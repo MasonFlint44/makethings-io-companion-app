@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
 import makethings.io.R
 import makethings.io.wifi.WifiFreq
+import makethings.io.wifi.WifiScanResult
 
 // TODO: add signal strength icons
 // TODO: add wifi security to ui
@@ -60,7 +62,7 @@ class DeviceScanFragment : Fragment() {
                 }
             }
         })
-        viewModel.deviceClicked.observe(viewLifecycleOwner, Observer {
+        viewModel.deviceClicked.observe(viewLifecycleOwner, {
             Log.d(tag, "device with ssid '${it.ssid}' was clicked")
         })
 
