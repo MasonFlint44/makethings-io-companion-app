@@ -20,9 +20,6 @@ import makethings.io.R
 import makethings.io.wifi.WifiFreq
 import makethings.io.wifi.WifiScanResult
 
-// TODO: add signal strength icons
-// TODO: add wifi security to ui
-// TODO: might want to make scanResultsView's height match_parent - recyclerview doesn't take up entire area of fragment
 class DeviceScanFragment : Fragment() {
     private val deviceSsid = "makethings-io"
     private val viewModel: DeviceScanViewModel by activityViewModels()

@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.launchIn
@@ -23,19 +22,13 @@ import makethings.io.wifi.WifiScanResult
 import makethings.io.wifi.WifiService
 import mqtt.broker.Broker
 
-//data class WifiCredentials(val ssid: String, val password: String)
-
 class MainActivity : AppCompatActivity() {
     private val tag = "MainActivity"
-//    private val port = 22983
     private val deviceScanViewModel: DeviceScanViewModel by viewModels()
     private val wifiScanViewModel: WifiScanViewModel by viewModels()
     private val wifiLoginViewModel: WifiLoginViewModel by viewModels()
-//    private lateinit var server: NettyApplicationEngine
     private lateinit var broker: Broker
     private lateinit var wifiService: WifiService
-//    private lateinit var wifiSsid: EditText
-//    private lateinit var wifiPassword: EditText
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var wizardPagerAdapter: WizardPagerAdapter
@@ -61,20 +54,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//    override fun onEnterAnimationComplete() {
-//        super.onEnterAnimationComplete()
-//        bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-//    }
-
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         wifiService = WifiService(applicationContext)
-
-//        wifiSsid = findViewById(R.id.wifiSsid)
-//        wifiPassword = findViewById(R.id.wifiPassword)
 
         wizardPagerAdapter = WizardPagerAdapter(this)
 
@@ -99,23 +84,15 @@ class MainActivity : AppCompatActivity() {
 
         ensurePermission(Manifest.permission.ACCESS_FINE_LOCATION)
         startWifiScan()
-
-//        lifecycleScope.launch {
-//            delay(10000)
-////            floatingActionButton.visibility = View.VISIBLE
-//
-//        }
     }
 
     override fun onResume() {
         super.onResume()
-//        startServer()
         broker = startBroker()
     }
 
     override fun onPause() {
         super.onPause()
-//        pauseServer()
         stopBroker(broker)
     }
 
@@ -157,33 +134,10 @@ class MainActivity : AppCompatActivity() {
         return broker
     }
 
-//    private fun startServer() {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            Log.d(tag,"Starting server on port $port")
-//            server = embeddedServer(Netty, port = port) {
-//                install(ContentNegotiation) {
-//                    gson { }
-//                }
-//                routing {
-//                    get("/GetWifiCredentials") {
-////                        call.respond(WifiCredentials(wifiSsid.text.toString(), wifiPassword.text.toString()))
-//                    }
-//                }
-//            }.start()
-//        }
-//    }
-
     private fun stopBroker(broker: Broker) {
         broker.stop()
         Log.d(tag, "Stopping MQTT broker")
     }
-
-//    private fun pauseServer() {
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            Log.d(tag,"Stopping server on port $port")
-//            server.stop(5000, 5000)
-//        }
-//    }
 
     private fun ensurePermission(permission: String) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) { return }

@@ -35,14 +35,14 @@ class WifiScanFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel.scanResults.observe(viewLifecycleOwner, Observer { scanResults ->
+        viewModel.scanResults.observe(viewLifecycleOwner, { scanResults ->
             scanResults.sortedByDescending { it.exactLevel }
             scanResultsAdapter.scanResults = scanResults
         })
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
+        viewModel.loading.observe(viewLifecycleOwner, {
             wifiScanProgress.visibility = if (it == true) View.VISIBLE else View.GONE
         })
-        viewModel.scanResultClicked.observe(viewLifecycleOwner, Observer {
+        viewModel.scanResultClicked.observe(viewLifecycleOwner, {
             Log.d(tag, "wifi scan result with ssid '${it.ssid}' was clicked")
         })
 
