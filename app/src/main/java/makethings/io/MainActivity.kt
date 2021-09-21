@@ -17,7 +17,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
 import makethings.io.fragments.devicescan.DeviceScanViewModel
+import makethings.io.fragments.wifilogin.WifiLoginViewModel
 import makethings.io.fragments.wifiscan.WifiScanViewModel
+import makethings.io.wifi.WifiScanResult
 import makethings.io.wifi.WifiService
 import mqtt.broker.Broker
 
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 //    private val port = 22983
     private val deviceScanViewModel: DeviceScanViewModel by viewModels()
     private val wifiScanViewModel: WifiScanViewModel by viewModels()
+    private val wifiLoginViewModel: WifiLoginViewModel by viewModels()
 //    private lateinit var server: NettyApplicationEngine
     private lateinit var broker: Broker
     private lateinit var wifiService: WifiService
@@ -36,6 +39,27 @@ class MainActivity : AppCompatActivity() {
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var wizardPagerAdapter: WizardPagerAdapter
+
+    private var selectedDevice: WifiScanResult? = null
+        set(value) {
+            field = value
+            floatingActionButton.isEnabled = true
+        }
+
+    private var selectedNetwork: WifiScanResult? = null
+        set(value) {
+            field = value
+            floatingActionButton.isEnabled = true
+            wifiLoginViewModel.scanResult.value = value
+        }
+
+    private var wifiPassword: String? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                floatingActionButton.isEnabled = value.isNotEmpty()
+            }
+        }
 
 //    override fun onEnterAnimationComplete() {
 //        super.onEnterAnimationComplete()
@@ -52,20 +76,23 @@ class MainActivity : AppCompatActivity() {
 //        wifiSsid = findViewById(R.id.wifiSsid)
 //        wifiPassword = findViewById(R.id.wifiPassword)
 
-        val wizardPager = findViewById<ViewPager2>(R.id.wizardPager)
         wizardPagerAdapter = WizardPagerAdapter(this)
-        wizardPager.adapter = wizardPagerAdapter
 
         floatingActionButton = findViewById(R.id.floatingActionButton)
         floatingActionButton.isEnabled = false
         floatingActionButton.setOnClickListener {
-            Log.d(tag, "button clicked")
+            floatingActionButton.isEnabled = false
             wizardPagerAdapter.pageIndex++
         }
 
         deviceScanViewModel.deviceClicked.observe(this, {
-            Log.d(tag, "device clicked")
-            floatingActionButton.isEnabled = true
+            selectedDevice = it
+        })
+        wifiScanViewModel.scanResultClicked.observe(this, {
+            selectedNetwork = it
+        })
+        wifiLoginViewModel.password.observe(this, {
+            wifiPassword = it
         })
 
         bottomAppBar = findViewById(R.id.bottomAppBar)
@@ -98,6 +125,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         wizardPagerAdapter.pageIndex--
+        floatingActionButton.isEnabled = true
     }
 
     @ExperimentalCoroutinesApi

@@ -13,6 +13,7 @@ import makethings.io.R
 import makethings.io.wifi.WifiFreq
 import makethings.io.wifi.WifiLevel
 import makethings.io.wifi.WifiScanResult
+import makethings.io.wifi.WifiSecurity
 
 class WifiScanAdapter (
     private val context: Context,
@@ -29,11 +30,30 @@ class WifiScanAdapter (
 
         init {
             itemView.setOnClickListener {
+                notifyItemChanged(selectedPosition)
+                selectedPosition = adapterPosition
+                notifyItemChanged(adapterPosition)
+
                 onItemClicked(adapterPosition)
             }
         }
+
+        fun enable() {
+            scanResultLayout.isEnabled = true
+            scanResultText.isEnabled = true
+            scanResultFreq.isEnabled = true
+            scanResultLevel.isEnabled = true
+        }
+
+        fun disable() {
+            scanResultLayout.isEnabled = false
+            scanResultText.isEnabled = false
+            scanResultFreq.isEnabled = false
+            scanResultLevel.isEnabled = false
+        }
     }
 
+    private var selectedPosition = RecyclerView.NO_POSITION
     var scanResults: List<WifiScanResult> = emptyList()
         set(value) {
             notifyItemRangeRemoved(0, field.count())
@@ -60,26 +80,36 @@ class WifiScanAdapter (
         }
         when(scanResult.freq) {
             WifiFreq.FREQ_2_4_GHZ -> {
-                holder.scanResultLayout.isClickable = true
-                holder.scanResultFreq.isEnabled = true
-                holder.scanResultText.isEnabled = true
+                holder.enable()
             }
             else -> {
-                holder.scanResultLayout.isClickable = false
-                holder.scanResultText.isEnabled = false
-                holder.scanResultFreq.isEnabled = false
+                holder.disable()
             }
         }
 
-        val wifiLevelDrawable = when(scanResult.level) {
-            WifiLevel.NONE -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_0_bar_24)
-            WifiLevel.WEAK -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_1_bar_24)
-            WifiLevel.FAIR -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_2_bar_24)
-            WifiLevel.GOOD -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_3_bar_24)
-            WifiLevel.EXCELLENT -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_4_bar_24)
+        val wifiLevelDrawable = when {
+            scanResult.level == WifiLevel.NONE ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_0_bar_24)
+            scanResult.level == WifiLevel.WEAK && scanResult.security != WifiSecurity.OPEN ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_1_bar_lock_24)
+            scanResult.level == WifiLevel.FAIR && scanResult.security != WifiSecurity.OPEN ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_2_bar_lock_24)
+            scanResult.level == WifiLevel.GOOD && scanResult.security != WifiSecurity.OPEN ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_3_bar_lock_24)
+            scanResult.level == WifiLevel.EXCELLENT && scanResult.security != WifiSecurity.OPEN ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_4_bar_lock_24)
+            scanResult.level == WifiLevel.WEAK && scanResult.security == WifiSecurity.OPEN ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_1_bar_24)
+            scanResult.level == WifiLevel.FAIR && scanResult.security == WifiSecurity.OPEN ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_2_bar_24)
+            scanResult.level == WifiLevel.GOOD && scanResult.security == WifiSecurity.OPEN ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_3_bar_24)
+            scanResult.level == WifiLevel.EXCELLENT && scanResult.security == WifiSecurity.OPEN ->
+                ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_4_bar_24)
             else -> ContextCompat.getDrawable(context, R.drawable.twotone_signal_wifi_0_bar_24)
         }
         holder.scanResultLevel.setImageDrawable(wifiLevelDrawable)
+        holder.itemView.isSelected = selectedPosition == position
     }
 
     override fun getItemCount(): Int {

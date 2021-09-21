@@ -24,7 +24,7 @@ class WifiService(private val appContext: Context) : ContextWrapper(appContext) 
             override fun onReceive(context: Context?, intent: Intent?) {
                 Log.d(tag,"Completed wifi network scan")
                 val scanResults = wifiManager.scanResults.map { result ->
-                    WifiScanResult(result.SSID, result.frequency, result.level)
+                    WifiScanResult(result.SSID, result.frequency, result.level, result.capabilities)
                 }
                 offer(scanResults)
             }

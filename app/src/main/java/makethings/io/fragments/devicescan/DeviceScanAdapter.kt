@@ -35,6 +35,18 @@ class DeviceScanAdapter(
                 onItemClicked(adapterPosition)
             }
         }
+
+        fun enable() {
+            scanResultLayout.isEnabled = true
+            scanResultText.isEnabled = true
+            scanResultLevel.isEnabled = true
+        }
+
+        fun disable() {
+            scanResultLayout.isEnabled = false
+            scanResultText.isEnabled = false
+            scanResultLevel.isEnabled = false
+        }
     }
 
     private var selectedPosition = RecyclerView.NO_POSITION
@@ -59,12 +71,10 @@ class DeviceScanAdapter(
         holder.scanResultText.text = scanResult.ssid
         when(scanResult.freq) {
             WifiFreq.FREQ_2_4_GHZ -> {
-                holder.scanResultLayout.isClickable = true
-                holder.scanResultText.isEnabled = true
+                holder.enable()
             }
             else -> {
-                holder.scanResultLayout.isClickable = false
-                holder.scanResultText.isEnabled = false
+                holder.disable()
             }
         }
         val wifiLevelDrawable = when(scanResult.level) {

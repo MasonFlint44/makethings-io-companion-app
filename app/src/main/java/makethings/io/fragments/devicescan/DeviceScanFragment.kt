@@ -48,7 +48,14 @@ class DeviceScanFragment : Fragment() {
             results.sortedByDescending { it.exactLevel }
             scanResultsAdapter.scanResults = results
             when {
-                results.isEmpty() -> emptyResultsMessage.visibility = View.VISIBLE
+                results.isEmpty() -> {
+                    emptyResultsMessage.visibility = View.VISIBLE
+                    scanResultsView.visibility = View.GONE
+                }
+                else -> {
+                    emptyResultsMessage.visibility = View.GONE
+                    scanResultsView.visibility = View.VISIBLE
+                }
             }
         })
         viewModel.loading.observe(viewLifecycleOwner, {

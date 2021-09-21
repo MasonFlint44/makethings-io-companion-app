@@ -5,14 +5,24 @@
       <map>
         <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.17962962962962964" />
         <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_0_bar_24.xml" value="0.17962962962962964" />
-        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable/device_scan_result.xml" value="0.17962962962962964" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_1_bar_24.xml" value="0.1515625" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_1_bar_lock_24.xml" value="0.1515625" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_2_bar_24.xml" value="0.1515625" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_2_bar_lock_24.xml" value="0.1515625" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_3_bar_24.xml" value="0.1515625" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_3_bar_lock_24.xml" value="0.1515625" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_4_bar_24.xml" value="0.1515625" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable-v24/twotone_signal_wifi_4_bar_lock_24.xml" value="0.1515625" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable/device_scan_result.xml" value="0.264" />
         <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.17962962962962964" />
         <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable/ic_launcher_background.xml" value="0.17962962962962964" />
-        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/activity_main.xml" value="0.12" />
-        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/device_scan_fragment.xml" value="0.536" />
-        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/device_scan_result.xml" value="0.2" />
-        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_scan_fragment.xml" value="0.109375" />
-        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_scan_result.xml" value="0.23278985507246377" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/drawable/wifi_scan_result.xml" value="0.17962962962962964" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/activity_main.xml" value="0.36262203626220363" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/device_scan_fragment.xml" value="0.29453015427769985" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/device_scan_result.xml" value="0.4" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_login_fragment.xml" value="0.176" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_scan_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_scan_result.xml" value="0.536" />
       </map>
     </option>
   </component>

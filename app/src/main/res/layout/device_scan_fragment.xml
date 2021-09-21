@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="10dp"
     tools:context=".fragments.devicescan.DeviceScanFragment">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="@string/devices"
         android:textSize="24sp" />
 
@@ -20,18 +18,13 @@
         android:id="@+id/wifiScanProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:maxWidth="48dp"
         android:maxHeight="48dp"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        android:paddingTop="10dp"
         android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/scanResultsView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false" />
 
     <TextView
         android:id="@+id/emtpyResultsMessage"
@@ -42,5 +35,12 @@
         android:textAlignment="center"
         android:textSize="16sp"
         android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/scanResultsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="60dp" />
 
 </LinearLayout>

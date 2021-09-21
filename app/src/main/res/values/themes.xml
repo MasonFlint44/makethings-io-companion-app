@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="cardBackgroundColor">@color/device_scan_result_background</item>
+        <item name="cardBackgroundColor">@color/card_background_color</item>
+<!--        <item name="android:disabledAlpha">@color/disabled_tint</item>-->
     </style>
 </resources>
