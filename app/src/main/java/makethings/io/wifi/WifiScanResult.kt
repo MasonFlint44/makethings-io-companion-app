@@ -1,6 +1,10 @@
 package makethings.io.wifi
 
-data class WifiScanResult(val ssid: String, val exactFreq: Int, val exactLevel: Int, val capabilities: String) {
+import android.net.MacAddress
+import android.os.Build
+import androidx.annotation.RequiresApi
+
+class WifiScanResult(val ssid: String, bssid: String, exactFreq: Int, exactLevel: Int, capabilities: String) {
     val level = getWifiLevel(exactLevel)
     val freq = getWifiFreq(exactFreq)
     val security: WifiSecurity = when {
@@ -10,6 +14,8 @@ data class WifiScanResult(val ssid: String, val exactFreq: Int, val exactLevel: 
         capabilities.contains("WEP") -> WifiSecurity.WEP
         else -> WifiSecurity.OPEN
     }
+    @RequiresApi(Build.VERSION_CODES.P)
+    val bssid = MacAddress.fromString(bssid)
 
     private fun getWifiFreq(freq: Int): WifiFreq {
         return when {
