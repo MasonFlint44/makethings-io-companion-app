@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".fragments.wifilogin.WifiLoginFragment">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:paddingBottom="10dp"
+        android:text="@string/connect_to_network"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/selectedScanResult"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <include
         android:id="@+id/selectedScanResult"
         layout="@layout/wifi_scan_result"

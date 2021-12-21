@@ -1,74 +1,90 @@
-package makethings.io.wifi
+package things.dev.wifi
 
 import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
 
-class NetworkCallbacks {
+class NetworkCallbacks(
+    lifecycleScope: LifecycleCoroutineScope,
+    private val wifiService: WifiService,
+    private val flags: Int? = null
+){
     data class Available(val network: Network)
     data class BlockedStatusChanged(val network: Network, val blocked: Boolean)
     data class CapabilitiesChanged(val network: Network, val networkCapabilities: NetworkCapabilities)
     data class LinkPropertiesChanged(val network: Network, val linkProperties: LinkProperties)
     data class Losing(val network: Network, val maxMsToLive: Int)
     data class Lost(val network: Network)
-    class Unavailable()
+    class Unavailable
 
     @ExperimentalCoroutinesApi
     val available: Flow<Available> = callbackFlow {
         _networkCallback.availableCallback = {
             offer(Available(it))
         }
-    }.flowOn(Dispatchers.IO)
+        awaitClose {_networkCallback.availableCallback = null}
+    }.shareIn(lifecycleScope, SharingStarted.Lazily, 1)
 
     @ExperimentalCoroutinesApi
     val blockedStatusChanged: Flow<BlockedStatusChanged> = callbackFlow {
         _networkCallback.blockedStatusChangedCallback = { network, blocked ->
             offer(BlockedStatusChanged(network, blocked))
         }
-    }.flowOn(Dispatchers.IO)
+        awaitClose {_networkCallback.blockedStatusChangedCallback = null}
+    }.shareIn(lifecycleScope, SharingStarted.Lazily, 1)
 
     @ExperimentalCoroutinesApi
     val capabilitiesChanged: Flow<CapabilitiesChanged> = callbackFlow {
         _networkCallback.capabilitiesChangedCallback = { network, capabilities ->
             offer(CapabilitiesChanged(network, capabilities))
         }
-    }.flowOn(Dispatchers.IO)
+        awaitClose {_networkCallback.capabilitiesChangedCallback = null}
+    }.shareIn(lifecycleScope, SharingStarted.Lazily, 1)
 
     @ExperimentalCoroutinesApi
     val linkPropertiesChanged: Flow<LinkPropertiesChanged> = callbackFlow {
         _networkCallback.linkPropertiesChangedCallback = { network, linkProperties ->
             offer(LinkPropertiesChanged(network, linkProperties))
         }
-    }.flowOn(Dispatchers.IO)
+        awaitClose {_networkCallback.linkPropertiesChangedCallback = null}
+    }.shareIn(lifecycleScope, SharingStarted.Lazily, 1)
 
     @ExperimentalCoroutinesApi
     val losing: Flow<Losing> = callbackFlow {
         _networkCallback.losingCallback = { network, maxMsToLive ->
             offer(Losing(network, maxMsToLive))
         }
-    }.flowOn(Dispatchers.IO)
+        awaitClose {_networkCallback.losingCallback = null}
+    }.shareIn(lifecycleScope, SharingStarted.Lazily, 1)
 
     @ExperimentalCoroutinesApi
     val lost: Flow<Lost> = callbackFlow {
         _networkCallback.lostCallback = {
             offer(Lost(it))
         }
-    }.flowOn(Dispatchers.IO)
+        awaitClose {_networkCallback.lostCallback = null}
+    }.shareIn(lifecycleScope, SharingStarted.Lazily, 1)
 
     @ExperimentalCoroutinesApi
     val unavailable: Flow<Unavailable> = callbackFlow {
         _networkCallback.unavailableCallback = {
             offer(Unavailable())
         }
+        awaitClose {_networkCallback.unavailableCallback = null}
+    }.shareIn(lifecycleScope, SharingStarted.Lazily, 1)
+
+    fun unregister() {
+        wifiService.restoreDisabledNetworks()
+        wifiService.disableRequestedNetwork()
+        wifiService.unregisterNetworkCallbacks(this)
     }
 
-    private val _networkCallback = object: ConnectivityManager.NetworkCallback() {
+    private val _networkCallback = object: ConnectivityManager.NetworkCallback(flags ?: 0) {
         var availableCallback: ((Network) -> Unit)? = null
         var blockedStatusChangedCallback: ((Network, Boolean) -> Unit)? = null
         var capabilitiesChangedCallback: ((Network, NetworkCapabilities) -> Unit)? = null

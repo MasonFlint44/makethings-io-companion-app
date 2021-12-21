@@ -1,4 +1,4 @@
-package makethings.io.fragments.wifiscan
+package things.dev.fragments.wifiscan
 
 import android.content.Context
 import android.os.Bundle
@@ -9,25 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
-import makethings.io.R
-import makethings.io.wifi.WifiService
+import things.dev.R
+import things.dev.wifi.WifiFreq
 
 class WifiScanFragment : Fragment() {
+    private val deviceSsid = "things.dev"
     private val viewModel: WifiScanViewModel by activityViewModels()
-    private lateinit var wifiService: WifiService
     private lateinit var scanResultsView: RecyclerView
     private lateinit var wifiScanProgress: ProgressBar
     private lateinit var scanResultsAdapter: WifiScanAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        wifiService = WifiService(context.applicationContext)
         scanResultsAdapter = WifiScanAdapter(context) { scanResult ->
-            viewModel.scanResultClicked.value = scanResult
+            viewModel.scanResultSelected.value = scanResult
         }
     }
 
@@ -36,13 +34,15 @@ class WifiScanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel.scanResults.observe(viewLifecycleOwner, { scanResults ->
-            scanResults.sortedByDescending { it.exactLevel }
             scanResultsAdapter.scanResults = scanResults
+                .filter { it.ssid != deviceSsid}
+                .sortedByDescending { it.exactLevel }
+                .sortedBy { it.freq }
         })
         viewModel.loading.observe(viewLifecycleOwner, {
             wifiScanProgress.visibility = if (it == true) View.VISIBLE else View.GONE
         })
-        viewModel.scanResultClicked.observe(viewLifecycleOwner, {
+        viewModel.scanResultSelected.observe(viewLifecycleOwner, {
             Log.d(tag, "wifi scan result with ssid '${it.ssid}' was clicked")
         })
 

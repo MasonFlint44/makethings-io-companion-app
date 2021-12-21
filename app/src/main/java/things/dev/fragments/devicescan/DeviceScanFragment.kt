@@ -1,4 +1,4 @@
-package makethings.io.fragments.devicescan
+package things.dev.fragments.devicescan
 
 import android.content.Context
 import android.os.Bundle
@@ -10,18 +10,14 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
-import makethings.io.R
-import makethings.io.wifi.WifiFreq
-import makethings.io.wifi.WifiScanResult
+import things.dev.R
+import things.dev.wifi.WifiFreq
 
 class DeviceScanFragment : Fragment() {
-    private val deviceSsid = "makethings-io"
+    private val deviceSsid = "things.dev"
     private val viewModel: DeviceScanViewModel by activityViewModels()
     private lateinit var scanResultsView: RecyclerView
     private lateinit var wifiScanProgress: ProgressBar
@@ -31,8 +27,8 @@ class DeviceScanFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        scanResultsAdapter = DeviceScanAdapter(context) { scanResult ->
-            viewModel.deviceClicked.value = scanResult
+        scanResultsAdapter = DeviceScanAdapter(context) { scanResult, position  ->
+            viewModel.deviceSelected.value = ScanResultClicked(position, scanResult)
         }
     }
 
@@ -42,8 +38,7 @@ class DeviceScanFragment : Fragment() {
     ): View? {
         viewModel.scanResults.observe(viewLifecycleOwner, { scanResults ->
             val results = scanResults.filter { it.ssid == deviceSsid && it.freq == WifiFreq.FREQ_2_4_GHZ }
-            results.sortedByDescending { it.exactLevel }
-            scanResultsAdapter.scanResults = results
+            scanResultsAdapter.scanResults = results.sortedByDescending { it.exactLevel }
             when {
                 results.isEmpty() -> {
                     emptyResultsMessage.visibility = View.VISIBLE
@@ -66,8 +61,11 @@ class DeviceScanFragment : Fragment() {
                 }
             }
         })
-        viewModel.deviceClicked.observe(viewLifecycleOwner, {
-            Log.d(tag, "device with ssid '${it.ssid}' was clicked")
+        viewModel.deviceSelected.observe(viewLifecycleOwner, {
+            Log.d(tag, "device with ssid '${it.scanResult.ssid}' was clicked")
+        })
+        viewModel.scanResultLoading.observe(viewLifecycleOwner, {
+            scanResultsAdapter.setLoading(it.position, it.isLoading)
         })
 
         return inflater.inflate(R.layout.device_scan_fragment, container, false)

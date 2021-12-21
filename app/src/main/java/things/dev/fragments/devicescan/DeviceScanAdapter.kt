@@ -1,4 +1,4 @@
-package makethings.io.fragments.devicescan
+package things.dev.fragments.devicescan
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,17 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import makethings.io.R
-import makethings.io.wifi.WifiFreq
-import makethings.io.wifi.WifiLevel
-import makethings.io.wifi.WifiScanResult
+import things.dev.R
+import things.dev.wifi.WifiFreq
+import things.dev.wifi.WifiLevel
+import things.dev.wifi.WifiScanResult
 
 class DeviceScanAdapter(
     private val context: Context,
-    private val onItemClicked: (WifiScanResult) -> Unit
+    private val onItemClicked: (WifiScanResult, Int) -> Unit
 ): RecyclerView.Adapter<DeviceScanAdapter.ViewHolder>() {
     inner class ViewHolder(
         view: View,
@@ -25,6 +26,7 @@ class DeviceScanAdapter(
         val scanResultLayout: LinearLayout = itemView.findViewById(R.id.scanResultLayout)
         val scanResultText: TextView = itemView.findViewById(R.id.scanResultText)
         val scanResultLevel: ImageView = itemView.findViewById(R.id.scanResultLevel)
+        val loadingSpinner: ProgressBar = itemView.findViewById(R.id.loadingSpinner)
 
         init {
             itemView.setOnClickListener {
@@ -33,6 +35,19 @@ class DeviceScanAdapter(
                 notifyItemChanged(adapterPosition)
 
                 onItemClicked(adapterPosition)
+            }
+        }
+
+        fun setLoading(isLoading: Boolean) {
+            when(isLoading) {
+                true -> {
+                    scanResultLevel.visibility = View.GONE
+                    loadingSpinner.visibility = View.VISIBLE
+                }
+                false -> {
+                    scanResultLevel.visibility = View.VISIBLE
+                    loadingSpinner.visibility = View.GONE
+                }
             }
         }
 
@@ -50,6 +65,7 @@ class DeviceScanAdapter(
     }
 
     private var selectedPosition = RecyclerView.NO_POSITION
+    private val isItemLoading = mutableMapOf<Int, Boolean>()
     var scanResults: List<WifiScanResult> = emptyList()
         set(value) {
             notifyItemRangeRemoved(0, field.count())
@@ -57,16 +73,21 @@ class DeviceScanAdapter(
             notifyItemRangeInserted(0, value.count())
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeviceScanAdapter.ViewHolder {
+    fun setLoading(position: Int, isLoading: Boolean) {
+        isItemLoading[position] = isLoading
+        notifyItemChanged(position)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         val scanResultView = inflater.inflate(R.layout.device_scan_result, parent, false)
         return ViewHolder(scanResultView) {
-            onItemClicked(scanResults[it])
+            onItemClicked(scanResults[it], it)
         }
     }
 
-    override fun onBindViewHolder(holder: DeviceScanAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val scanResult = scanResults[position]
         holder.scanResultText.text = scanResult.ssid
         when(scanResult.freq) {
@@ -87,6 +108,9 @@ class DeviceScanAdapter(
         }
         holder.scanResultLevel.setImageDrawable(wifiLevelDrawable)
         holder.itemView.isSelected = selectedPosition == position
+
+        val isLoading = isItemLoading[position] ?: false
+        holder.setLoading(isLoading)
     }
 
     override fun getItemCount(): Int {

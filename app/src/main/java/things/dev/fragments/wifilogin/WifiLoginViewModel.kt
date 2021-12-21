@@ -1,8 +1,8 @@
-package makethings.io.fragments.wifilogin
+package things.dev.fragments.wifilogin
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import makethings.io.wifi.WifiScanResult
+import things.dev.wifi.WifiScanResult
 
 class WifiLoginViewModel : ViewModel() {
     val scanResult: MutableLiveData<WifiScanResult> by lazy {

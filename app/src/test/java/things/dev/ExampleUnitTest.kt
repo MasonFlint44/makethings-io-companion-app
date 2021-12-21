@@ -1,4 +1,4 @@
-package makethings.io
+package things.dev
 
 import org.junit.Test
 

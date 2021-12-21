@@ -23,6 +23,11 @@
         <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_login_fragment.xml" value="0.176" />
         <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_scan_fragment.xml" value="0.264" />
         <entry key="..\:/Users/mason/AndroidStudioProjects/makethingsio/app/src/main/res/layout/wifi_scan_result.xml" value="0.536" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/thingsdev/app/src/main/res/layout/device_scan_fragment.xml" value="0.15989583333333332" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/thingsdev/app/src/main/res/layout/device_scan_result.xml" value="0.15989583333333332" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/thingsdev/app/src/main/res/layout/wifi_login_fragment.xml" value="0.15989583333333332" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/thingsdev/app/src/main/res/layout/wifi_scan_fragment.xml" value="0.15989583333333332" />
+        <entry key="..\:/Users/mason/AndroidStudioProjects/thingsdev/app/src/main/res/layout/wifi_scan_result.xml" value="0.15989583333333332" />
       </map>
     </option>
   </component>

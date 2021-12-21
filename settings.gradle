@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "makethings.io"
+rootProject.name = "things.dev"

@@ -1,4 +1,4 @@
-package makethings.io.wifi
+package things.dev.wifi
 
 enum class WifiFreq {
     FREQ_2_4_GHZ,

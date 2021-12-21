@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/makethings.io.iml" filepath="$PROJECT_DIR$/.idea/modules/makethings.io.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/makethings.io.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/makethings.io.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/things.dev.iml" filepath="$PROJECT_DIR$/.idea/modules/things.dev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/things.dev.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/things.dev.app.iml" />
     </modules>
   </component>
 </project>
