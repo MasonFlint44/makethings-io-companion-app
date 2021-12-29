@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import things.dev.wifi.WifiScanResult
 
 enum class FabAlignmentMode { CENTER, END, }
+enum class FabIcon { NEXT, WIFI, }
 
 class MainActivityViewModel : ViewModel() {
     val pageIndex: MutableLiveData<Int> by lazy {
@@ -21,5 +22,8 @@ class MainActivityViewModel : ViewModel() {
     }
     val loading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
+    }
+    val fabIcon: MutableLiveData<FabIcon> by lazy {
+        MutableLiveData<FabIcon>(FabIcon.NEXT)
     }
 }

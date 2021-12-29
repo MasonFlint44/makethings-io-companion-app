@@ -50,4 +50,15 @@
         android:tintMode="multiply"
         app:srcCompat="@drawable/twotone_signal_wifi_0_bar_24"
         tools:ignore="ContentDescription" />
+
+    <ProgressBar
+        android:id="@+id/loadingSpinner"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:layout_weight="1"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/card_text_color"
+        android:indeterminateTintMode="multiply"
+        android:visibility="gone" />
 </LinearLayout>

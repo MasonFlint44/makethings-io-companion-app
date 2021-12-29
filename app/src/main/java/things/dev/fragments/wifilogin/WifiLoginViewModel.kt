@@ -11,4 +11,7 @@ class WifiLoginViewModel : ViewModel() {
     val password: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
+    val loading: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
 }

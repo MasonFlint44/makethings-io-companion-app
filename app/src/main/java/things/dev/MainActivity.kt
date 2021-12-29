@@ -25,7 +25,7 @@ import things.dev.wifi.WifiScanResult
 import things.dev.wifi.WifiService
 import mqtt.broker.Broker
 
-// TODO: create viewModel for MainActivity
+
 class MainActivity : AppCompatActivity() {
     private val tag = "MainActivity"
     private val deviceScanViewModel: DeviceScanViewModel by viewModels()
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         bottomAppBar = findViewById(R.id.bottomAppBar)
 
         deviceScanViewModel.deviceSelected.observe(this, {
-            // TODO: set button icon to connect icon
+            viewModel.fabIcon.value = FabIcon.WIFI
             viewModel.fabAlignment.value = FabAlignmentMode.CENTER
             viewModel.fabEnabled.value = true
         })
@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
         wifiLoginViewModel.password.observe(this, {
             viewModel.fabEnabled.value = it.isNotEmpty()
         })
-
         wifiLoginViewModel.password.observe(this, {
             viewModel.fabEnabled.value = it.isNotEmpty()
         })
@@ -94,6 +93,12 @@ class MainActivity : AppCompatActivity() {
             when (it) {
                 FabAlignmentMode.CENTER -> bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 FabAlignmentMode.END -> bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            }
+        })
+        viewModel.fabIcon.observe(this, {
+            when (it) {
+                FabIcon.NEXT -> floatingActionButton.setImageResource(R.drawable.ic_baseline_arrow_forward_24)
+                FabIcon.WIFI -> floatingActionButton.setImageResource(R.drawable.twotone_signal_wifi_4_bar_24)
             }
         })
 
@@ -180,19 +185,33 @@ class MainActivity : AppCompatActivity() {
     private fun onFabClicked(view: View) {
         viewModel.fabEnabled.value = false
 //        nextPage()
-        // TODO: check page number to determine behavior
-        if (connectedDevice == null) {
-            deviceScanViewModel.deviceSelected.value?.let {
-                connectToDevice(it.scanResult) {
-                    deviceScanViewModel.scanResultLoading.value =
-                        ScanResultLoading(it.position, false)
-                    viewModel.fabEnabled.value = true
-                    viewModel.fabAlignment.value = FabAlignmentMode.END
+
+        when(viewModel.pageIndex.value) {
+            0 -> {
+                if (connectedDevice == null) {
+                    deviceScanViewModel.deviceSelected.value?.let {
+                        connectToDevice(it.scanResult) {
+                            deviceScanViewModel.scanResultLoading.value =
+                                ScanResultLoading(it.position, false)
+                            viewModel.fabEnabled.value = true
+                            viewModel.fabAlignment.value = FabAlignmentMode.END
+                            viewModel.fabIcon.value = FabIcon.NEXT
+                        }
+                        deviceScanViewModel.scanResultLoading.value = ScanResultLoading(it.position, true)
+                    }
+                } else {
+                    nextPage()
                 }
-                deviceScanViewModel.scanResultLoading.value = ScanResultLoading(it.position, true)
             }
-        } else if (connectedDevice != null) {
-            nextPage()
+            1 -> {
+                viewModel.fabIcon.value = FabIcon.WIFI
+                viewModel.fabAlignment.value = FabAlignmentMode.CENTER
+                nextPage()
+            }
+            2 -> {
+                wifiLoginViewModel.loading.value = true
+                // TODO: connect to wifi network (don't forget to stop loading spinner when complete)
+            }
         }
     }
 

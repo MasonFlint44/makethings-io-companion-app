@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
@@ -21,6 +22,7 @@ class WifiLoginFragment : Fragment() {
     private lateinit var scanResultText: TextView
     private lateinit var scanResultFreq: TextView
     private lateinit var scanResultLevel: ImageView
+    private lateinit var loadingSpinner: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +59,18 @@ class WifiLoginFragment : Fragment() {
             }
             scanResultLevel.setImageDrawable(wifiLevelDrawable)
         })
+        viewModel.loading.observe(viewLifecycleOwner, {
+            when(it) {
+                true -> {
+                    loadingSpinner.visibility = View.VISIBLE
+                    scanResultLevel.visibility = View.GONE
+                }
+                else -> {
+                    loadingSpinner.visibility = View.GONE
+                    scanResultLevel.visibility = View.VISIBLE
+                }
+            }
+        })
 
         return inflater.inflate(R.layout.wifi_login_fragment, container, false)
     }
@@ -67,6 +81,7 @@ class WifiLoginFragment : Fragment() {
         scanResultText = view.findViewById(R.id.scanResultText)
         scanResultFreq = view.findViewById(R.id.scanResultFreq)
         scanResultLevel = view.findViewById(R.id.scanResultLevel)
+        loadingSpinner = view.findViewById(R.id.loadingSpinner)
         
         passwordText.doOnTextChanged { text, start, count, after ->
             viewModel.password.value = text.toString()

@@ -3,8 +3,8 @@
     <string name="ssidInputHint">SSID</string>
     <string name="passwordInputHint">Password</string>
     <string name="connect_button_text">Connect device</string>
-    <string name="devices">Search for devices:</string>
-    <string name="networks">Search for networks:</string>
+    <string name="devices">Connect to device:</string>
+    <string name="networks">Select a network:</string>
     <string name="no_devices_found">No devices found</string>
     <string name="password">password</string>
     <string name="connect_to_network">Connect to network:</string>
