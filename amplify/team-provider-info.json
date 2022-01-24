@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-thingsdev-dev-203244-authRole",
+      "UnauthRoleArn": "arn:aws:iam::617125076794:role/amplify-thingsdev-dev-203244-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::617125076794:role/amplify-thingsdev-dev-203244-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-thingsdev-dev-203244-deployment",
+      "UnauthRoleName": "amplify-thingsdev-dev-203244-unauthRole",
+      "StackName": "amplify-thingsdev-dev-203244",
+      "StackId": "arn:aws:cloudformation:us-east-2:617125076794:stack/amplify-thingsdev-dev-203244/eb17c730-7cbd-11ec-b70b-021f02436f0e",
+      "AmplifyAppId": "d3awdngz80suuc"
+    },
+    "categories": {
+      "auth": {
+        "thingsdevf09fb4d1": {}
+      }
+    }
+  }
+}

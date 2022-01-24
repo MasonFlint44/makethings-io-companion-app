@@ -10,8 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import kotlinx.coroutines.*
 import androidx.lifecycle.lifecycleScope
+import com.amazonaws.mobile.auth.core.signin.AuthException
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +29,10 @@ import things.dev.wifi.NetworkCallbacks
 import things.dev.wifi.WifiScanResult
 import things.dev.wifi.WifiService
 import mqtt.broker.Broker
+import mqtt.packets.Qos
+import mqtt.packets.mqttv5.MQTT5Properties
 
+data class WifiCredentials(val ssid: String, val password: String)
 
 class MainActivity : AppCompatActivity() {
     private val tag = "MainActivity"
@@ -40,8 +48,10 @@ class MainActivity : AppCompatActivity() {
     private var requestedNetworkCallbacks: NetworkCallbacks? = null
 //    private var originalNetworkInfo: WifiScanResult? = null
     private var connectedDevice: WifiScanResult? = null
+    private var connectedNetwork: WifiScanResult? = null
+    private val gson = Gson()
 
-    @ExperimentalCoroutinesApi
+//    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -102,6 +112,19 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        try {
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+            Log.i(tag, "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e(tag, "Could not initialize Amplify", error)
+        }
+
+        Amplify.Auth.fetchAuthSession(
+            { Log.i("AmplifyQuickstart", "Auth session = $it") },
+            { Log.e("AmplifyQuickstart", "Failed to fetch auth session", it) }
+        )
+
         ensurePermission(Manifest.permission.ACCESS_FINE_LOCATION)
 //        originalNetworkInfo = wifiService.getCurrentNetworkInfo()
     }
@@ -133,6 +156,7 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 
+        broker = startBroker()
     }
 
     override fun onPause() {
@@ -209,8 +233,22 @@ class MainActivity : AppCompatActivity() {
                 nextPage()
             }
             2 -> {
-                wifiLoginViewModel.loading.value = true
-                // TODO: connect to wifi network (don't forget to stop loading spinner when complete)
+                if (connectedNetwork == null) {
+                    wifiLoginViewModel.loading.value = true
+                    wifiLoginViewModel.scanResult.value?.let {
+                        wifiLoginViewModel.password.value?.let { password ->
+                            publishMessage(gson.toJson(WifiCredentials(it.ssid, password)), "wifi-credentials")
+                            connectToNetwork(it, password) {
+                                wifiLoginViewModel.loading.value = false
+                                viewModel.fabEnabled.value = true
+                                viewModel.fabAlignment.value = FabAlignmentMode.END
+                                viewModel.fabIcon.value = FabIcon.NEXT
+                            }
+                        }
+                    }
+                } else {
+                    nextPage()
+                }
             }
         }
     }
@@ -227,6 +265,24 @@ class MainActivity : AppCompatActivity() {
             .map { it.network }
             .onEach {
                 connectedDevice = device
+                onAvailable()
+            }
+            .launchIn(lifecycleScope)
+    }
+
+    private fun connectToNetwork(network: WifiScanResult, password: String, onAvailable: () -> Unit) {
+        var callbacks = wifiService.requestNetwork(
+            network.ssid,
+            password = password,
+            security = network.security,
+            isLocal = true
+        )
+        requestedNetworkCallbacks = callbacks
+        callbacks.available
+            .take(1)
+            .map { it.network }
+            .onEach {
+                connectedNetwork = network
                 onAvailable()
             }
             .launchIn(lifecycleScope)
@@ -253,6 +309,10 @@ class MainActivity : AppCompatActivity() {
             broker.listen()
         }
         return broker
+    }
+
+    private fun publishMessage(payload: String, topic: String, retain: Boolean = false) {
+        broker?.publish(retain, topic, Qos.AT_LEAST_ONCE, MQTT5Properties(), payload.toByteArray().toUByteArray())
     }
 
     private fun stopBroker(broker: Broker) {
