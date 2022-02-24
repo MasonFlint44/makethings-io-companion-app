@@ -1,4 +1,4 @@
-package things.dev.wifi
+package things.dev.features.wifi.domain.models
 
 enum class WifiSecurity {
     WPA,

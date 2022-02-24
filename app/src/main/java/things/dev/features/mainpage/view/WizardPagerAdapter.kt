@@ -1,12 +1,13 @@
-package things.dev
+package things.dev.features.mainpage.view
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import things.dev.fragments.devicescan.DeviceScanFragment
-import things.dev.fragments.wifilogin.WifiLoginFragment
-import things.dev.fragments.wifiscan.WifiScanFragment
+import things.dev.R
+import things.dev.features.devicescan.view.DeviceScanFragment
+import things.dev.features.wifilogin.view.WifiLoginFragment
+import things.dev.features.wifiscan.view.WifiScanFragment
 
 class WizardPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     private val pager = fa.findViewById<ViewPager2>(R.id.wizardPager)

@@ -1,4 +1,4 @@
-package things.dev
+package things.dev.features.mainpage.view
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import kotlinx.coroutines.*
 import androidx.lifecycle.lifecycleScope
-import com.amazonaws.mobile.auth.core.signin.AuthException
 import com.amplifyframework.AmplifyException
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
@@ -21,16 +20,17 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.take
-import things.dev.fragments.devicescan.DeviceScanViewModel
-import things.dev.fragments.devicescan.ScanResultLoading
-import things.dev.fragments.wifilogin.WifiLoginViewModel
-import things.dev.fragments.wifiscan.WifiScanViewModel
-import things.dev.wifi.NetworkCallbacks
-import things.dev.wifi.WifiScanResult
-import things.dev.wifi.WifiService
+import things.dev.features.devicescan.view.DeviceScanViewModel
+import things.dev.features.devicescan.view.ScanResultLoading
+import things.dev.features.wifilogin.view.WifiLoginViewModel
+import things.dev.features.wifiscan.view.WifiScanViewModel
+import things.dev.features.wifi.NetworkCallbacks
+import things.dev.features.wifi.domain.models.WifiScanResult
+import things.dev.features.wifi.WifiService
 import mqtt.broker.Broker
 import mqtt.packets.Qos
 import mqtt.packets.mqttv5.MQTT5Properties
+import things.dev.R
 
 data class WifiCredentials(val ssid: String, val password: String)
 
@@ -59,58 +59,60 @@ class MainActivity : AppCompatActivity() {
         wifiService = WifiService(this, lifecycleScope)
 
         wizardPagerAdapter = WizardPagerAdapter(this)
-        viewModel.pageIndex.observe(this, {
+        viewModel.pageIndex.observe(this) {
             wizardPagerAdapter.pageIndex = it
-        })
+        }
 
         floatingActionButton = findViewById(R.id.floatingActionButton)
         floatingActionButton.setOnClickListener {
             onFabClicked(it)
         }
-        viewModel.fabEnabled.observe(this, {
+        viewModel.fabEnabled.observe(this) {
             floatingActionButton.isEnabled = it
-        })
+        }
 
         bottomAppBar = findViewById(R.id.bottomAppBar)
 
-        deviceScanViewModel.deviceSelected.observe(this, {
+        deviceScanViewModel.deviceSelected.observe(this) {
             viewModel.fabIcon.value = FabIcon.WIFI
             viewModel.fabAlignment.value = FabAlignmentMode.CENTER
             viewModel.fabEnabled.value = true
-        })
+        }
 
-        wifiScanViewModel.scanResultSelected.observe(this, {
+        wifiScanViewModel.scanResultSelected.observe(this) {
             viewModel.fabEnabled.value = true
             wifiLoginViewModel.scanResult.value = it
-        })
+        }
 
-        wifiLoginViewModel.password.observe(this, {
+        wifiLoginViewModel.password.observe(this) {
             viewModel.fabEnabled.value = it.isNotEmpty()
-        })
-        wifiLoginViewModel.password.observe(this, {
+        }
+        wifiLoginViewModel.password.observe(this) {
             viewModel.fabEnabled.value = it.isNotEmpty()
-        })
+        }
 
-        viewModel.scanResults.observe(this, {
+        viewModel.scanResults.observe(this) {
             deviceScanViewModel.scanResults.value = it
             wifiScanViewModel.scanResults.value = it
-        })
-        viewModel.loading.observe(this, {
+        }
+        viewModel.loading.observe(this) {
             deviceScanViewModel.loading.value = it
             wifiScanViewModel.loading.value = it
-        })
-        viewModel.fabAlignment.observe(this, {
+        }
+        viewModel.fabAlignment.observe(this) {
             when (it) {
-                FabAlignmentMode.CENTER -> bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                FabAlignmentMode.END -> bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                FabAlignmentMode.CENTER -> bottomAppBar.fabAlignmentMode =
+                    BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                FabAlignmentMode.END -> bottomAppBar.fabAlignmentMode =
+                    BottomAppBar.FAB_ALIGNMENT_MODE_END
             }
-        })
-        viewModel.fabIcon.observe(this, {
+        }
+        viewModel.fabIcon.observe(this) {
             when (it) {
                 FabIcon.NEXT -> floatingActionButton.setImageResource(R.drawable.ic_baseline_arrow_forward_24)
                 FabIcon.WIFI -> floatingActionButton.setImageResource(R.drawable.twotone_signal_wifi_4_bar_24)
             }
-        })
+        }
 
         try {
             Amplify.addPlugin(AWSCognitoAuthPlugin())

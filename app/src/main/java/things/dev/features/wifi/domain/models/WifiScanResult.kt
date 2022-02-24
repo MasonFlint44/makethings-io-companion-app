@@ -1,4 +1,4 @@
-package things.dev.wifi
+package things.dev.features.wifi.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable

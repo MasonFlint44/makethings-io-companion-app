@@ -1,4 +1,4 @@
-package things.dev.wifi
+package things.dev.features.wifi
 
 import android.Manifest
 import android.content.*
@@ -16,6 +16,8 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
+import things.dev.features.wifi.domain.models.WifiScanResult
+import things.dev.features.wifi.domain.models.WifiSecurity
 
 class WifiService(context: Context, private val lifecycleScope: LifecycleCoroutineScope) : ContextWrapper(context) {
     private val tag = "WifiService"

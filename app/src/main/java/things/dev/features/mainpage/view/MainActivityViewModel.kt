@@ -1,8 +1,8 @@
-package things.dev
+package things.dev.features.mainpage.view
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import things.dev.wifi.WifiScanResult
+import things.dev.features.wifi.domain.models.WifiScanResult
 
 enum class FabAlignmentMode { CENTER, END, }
 enum class FabIcon { NEXT, WIFI, }

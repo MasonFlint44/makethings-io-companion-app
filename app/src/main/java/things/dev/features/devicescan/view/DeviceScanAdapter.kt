@@ -1,4 +1,4 @@
-package things.dev.fragments.devicescan
+package things.dev.features.devicescan.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,9 +11,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import things.dev.R
-import things.dev.wifi.WifiFreq
-import things.dev.wifi.WifiLevel
-import things.dev.wifi.WifiScanResult
+import things.dev.features.wifi.domain.models.WifiFreq
+import things.dev.features.wifi.domain.models.WifiLevel
+import things.dev.features.wifi.domain.models.WifiScanResult
 
 class DeviceScanAdapter(
     private val context: Context,

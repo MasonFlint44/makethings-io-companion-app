@@ -1,4 +1,4 @@
-package things.dev.fragments.wifilogin
+package things.dev.features.wifilogin.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,9 +12,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import things.dev.R
-import things.dev.wifi.WifiFreq
-import things.dev.wifi.WifiLevel
-import things.dev.wifi.WifiSecurity
+import things.dev.features.wifi.domain.models.WifiFreq
+import things.dev.features.wifi.domain.models.WifiLevel
+import things.dev.features.wifi.domain.models.WifiSecurity
 
 class WifiLoginFragment : Fragment() {
     private val viewModel: WifiLoginViewModel by activityViewModels()

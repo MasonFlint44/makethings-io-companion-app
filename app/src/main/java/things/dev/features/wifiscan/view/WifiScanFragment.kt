@@ -1,4 +1,4 @@
-package things.dev.fragments.wifiscan
+package things.dev.features.wifiscan.view
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
 import things.dev.R
-import things.dev.wifi.WifiFreq
 
 class WifiScanFragment : Fragment() {
     private val deviceSsid = "things.dev"
