@@ -1,0 +1,64 @@
+package things.dev.features.mainpage.ui
+
+import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.Lazy
+import dagger.hilt.android.AndroidEntryPoint
+import things.dev.R
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+    private val viewModel: MainPageViewModel by viewModels()
+
+    private lateinit var floatingActionButton: FloatingActionButton
+    private lateinit var bottomAppBar: BottomAppBar
+
+    // Needs to be lazily instantiated because its constructor calls findViewById
+    // which needs to be called after setContentView
+    @Inject lateinit var wizardPagerAdapter: Lazy<WizardPagerAdapter>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        floatingActionButton = findViewById(R.id.floatingActionButton)
+        bottomAppBar = findViewById(R.id.bottomAppBar)
+
+        floatingActionButton.setOnClickListener {
+            viewModel.fabClicked.value = true
+        }
+
+        viewModel.pageIndex.observe(this) {
+            wizardPagerAdapter.get().pageIndex = it
+        }
+        viewModel.fabEnabled.observe(this) {
+            floatingActionButton.isEnabled = it
+        }
+        viewModel.fabAlignment.observe(this) {
+            when (it) {
+                FabAlignmentMode.CENTER -> bottomAppBar.fabAlignmentMode =
+                    BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                FabAlignmentMode.END -> bottomAppBar.fabAlignmentMode =
+                    BottomAppBar.FAB_ALIGNMENT_MODE_END
+            }
+        }
+        viewModel.fabIcon.observe(this) {
+            when (it) {
+                FabIcon.NEXT -> floatingActionButton.setImageResource(R.drawable.ic_baseline_arrow_forward_24)
+                FabIcon.WIFI -> floatingActionButton.setImageResource(R.drawable.twotone_signal_wifi_4_bar_24)
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (viewModel.pageIndex.value == 0) {
+            super.onBackPressed()
+            return
+        }
+        viewModel.backPressed()
+    }
+}

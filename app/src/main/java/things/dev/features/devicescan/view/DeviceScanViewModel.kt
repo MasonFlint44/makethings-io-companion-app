@@ -2,7 +2,7 @@ package things.dev.features.devicescan.view
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import things.dev.features.wifi.domain.models.WifiScanResult
+import things.dev.features.wifi.data.models.WifiScanResult
 
 data class ScanResultLoading(val position: Int, val isLoading: Boolean)
 data class ScanResultClicked(val position: Int, val scanResult: WifiScanResult)

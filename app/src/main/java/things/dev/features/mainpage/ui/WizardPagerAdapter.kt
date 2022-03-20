@@ -1,4 +1,4 @@
-package things.dev.features.mainpage.view
+package things.dev.features.mainpage.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -8,8 +8,9 @@ import things.dev.R
 import things.dev.features.devicescan.view.DeviceScanFragment
 import things.dev.features.wifilogin.view.WifiLoginFragment
 import things.dev.features.wifiscan.view.WifiScanFragment
+import javax.inject.Inject
 
-class WizardPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+class WizardPagerAdapter @Inject constructor(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     private val pager = fa.findViewById<ViewPager2>(R.id.wizardPager)
     private val pages: List<Fragment> = listOf(
         DeviceScanFragment(),

@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -42,9 +44,6 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.code.gson:gson:2.8.8'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.2.0'
@@ -69,4 +68,25 @@ dependencies {
     implementation 'com.amplifyframework:core:1.31.1'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation 'com.amplifyframework:aws-auth-cognito:1.31.1'
+    implementation 'com.google.dagger:hilt-android:2.41'
+    kapt 'com.google.dagger:hilt-compiler:2.41'
+
+    // For instrumentation tests
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation  'com.google.dagger:hilt-android-testing:2.41'
+    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.41'
+
+    // For local unit tests
+    testImplementation 'junit:junit:4.+'
+    testImplementation 'com.google.dagger:hilt-android-testing:2.41'
+    kaptTest 'com.google.dagger:hilt-compiler:2.41'
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+hilt {
+    enableAggregatingTask = true
 }
