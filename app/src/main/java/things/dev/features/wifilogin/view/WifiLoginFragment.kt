@@ -12,9 +12,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import things.dev.R
-import things.dev.features.wifi.domain.models.WifiFreq
-import things.dev.features.wifi.domain.models.WifiLevel
-import things.dev.features.wifi.domain.models.WifiSecurity
+import things.dev.features.wifi.data.models.WifiFreq
+import things.dev.features.wifi.data.models.WifiLevel
+import things.dev.features.wifi.data.models.WifiSecurity
 
 class WifiLoginFragment : Fragment() {
     private val viewModel: WifiLoginViewModel by activityViewModels()

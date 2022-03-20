@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
 import things.dev.R
-import things.dev.features.wifi.domain.models.WifiFreq
+import things.dev.features.wifi.data.models.WifiFreq
 
 class DeviceScanFragment : Fragment() {
     private val deviceSsid = "things.dev"

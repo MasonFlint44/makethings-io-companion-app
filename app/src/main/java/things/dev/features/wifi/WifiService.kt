@@ -13,13 +13,15 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LifecycleCoroutineScope
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
-import things.dev.features.wifi.domain.models.WifiScanResult
-import things.dev.features.wifi.domain.models.WifiSecurity
+import things.dev.features.wifi.data.models.WifiScanResult
+import things.dev.features.wifi.data.models.WifiSecurity
+import javax.inject.Inject
 
-class WifiService(context: Context, private val lifecycleScope: LifecycleCoroutineScope) : ContextWrapper(context) {
+class WifiService @Inject constructor(@ActivityContext context: Context, private val lifecycleScope: LifecycleCoroutineScope) : ContextWrapper(context) {
     private val tag = "WifiService"
     private val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
     private val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
