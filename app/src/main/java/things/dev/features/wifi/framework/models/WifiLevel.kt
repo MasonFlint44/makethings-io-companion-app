@@ -1,4 +1,4 @@
-package things.dev.features.wifi.data.models
+package things.dev.features.wifi.framework.models
 
 enum class WifiLevel {
     NONE,

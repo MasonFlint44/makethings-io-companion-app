@@ -17,8 +17,8 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
-import things.dev.features.wifi.data.models.WifiScanResult
-import things.dev.features.wifi.data.models.WifiSecurity
+import things.dev.features.wifi.framework.models.WifiScanResult
+import things.dev.features.wifi.framework.models.WifiSecurity
 import javax.inject.Inject
 
 class WifiService @Inject constructor(@ActivityContext context: Context, private val lifecycleScope: LifecycleCoroutineScope) : ContextWrapper(context) {

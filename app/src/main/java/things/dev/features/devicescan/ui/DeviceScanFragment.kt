@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import things.dev.R
 import things.dev.features.wifi.WifiService
-import things.dev.features.wifi.data.models.WifiScanResult
+import things.dev.features.wifi.framework.models.WifiScanResult
 import javax.inject.Inject
 
 @AndroidEntryPoint

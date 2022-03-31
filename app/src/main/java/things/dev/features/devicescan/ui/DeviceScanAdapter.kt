@@ -13,9 +13,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.qualifiers.ActivityContext
 import things.dev.R
-import things.dev.features.wifi.data.models.WifiFreq
-import things.dev.features.wifi.data.models.WifiLevel
-import things.dev.features.wifi.data.models.WifiScanResult
+import things.dev.features.wifi.framework.models.WifiFreq
+import things.dev.features.wifi.framework.models.WifiLevel
+import things.dev.features.wifi.framework.models.WifiScanResult
 import javax.inject.Inject
 
 class DeviceScanAdapter @Inject constructor(

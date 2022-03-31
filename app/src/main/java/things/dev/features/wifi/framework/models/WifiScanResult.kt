@@ -1,4 +1,4 @@
-package things.dev.features.wifi.data.models
+package things.dev.features.wifi.framework.models
 
 import android.os.Parcel
 import android.os.Parcelable
