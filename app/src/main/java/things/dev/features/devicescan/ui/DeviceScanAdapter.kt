@@ -22,8 +22,7 @@ class DeviceScanAdapter @Inject constructor(
     @ActivityContext private val context: Context,
 ): RecyclerView.Adapter<DeviceScanAdapter.ViewHolder>() {
     inner class ViewHolder(
-        view: View,
-        onItemClicked: (Int) -> Unit
+        view: View
     ): RecyclerView.ViewHolder(view) {
         val scanResultLayout: LinearLayout = itemView.findViewById(R.id.scanResultLayout)
         val scanResultText: TextView = itemView.findViewById(R.id.scanResultText)
@@ -36,7 +35,7 @@ class DeviceScanAdapter @Inject constructor(
                 selectedPosition = adapterPosition
                 notifyItemChanged(adapterPosition)
 
-                onItemClicked(adapterPosition)
+                itemClicked.value = ScanResultClicked(adapterPosition, scanResults[adapterPosition])
             }
         }
 
@@ -87,9 +86,7 @@ class DeviceScanAdapter @Inject constructor(
         val context = parent.context
         val inflater = LayoutInflater.from(context)
         val scanResultView = inflater.inflate(R.layout.device_scan_result, parent, false)
-        return ViewHolder(scanResultView) {
-            itemClicked.value = ScanResultClicked(it, scanResults[it])
-        }
+        return ViewHolder(scanResultView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
