@@ -8,11 +8,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
 import things.dev.R
+import things.dev.features.devicescan.ui.DeviceScanViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainPageViewModel by viewModels()
+    private val deviceScanViewModel: DeviceScanViewModel by viewModels()
 
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         floatingActionButton.setOnClickListener {
             viewModel.fabClicked.value = true
+            deviceScanViewModel.fabClicked.value = true
         }
 
         viewModel.pageIndex.observe(this) {
@@ -51,6 +54,16 @@ class MainActivity : AppCompatActivity() {
                 FabIcon.NEXT -> floatingActionButton.setImageResource(R.drawable.ic_baseline_arrow_forward_24)
                 FabIcon.WIFI -> floatingActionButton.setImageResource(R.drawable.twotone_signal_wifi_4_bar_24)
             }
+        }
+
+        deviceScanViewModel.deviceSelected.observe(this) {
+            viewModel.enableFab(FabIcon.WIFI, FabAlignmentMode.CENTER)
+        }
+        deviceScanViewModel.deviceConnected.observe(this) {
+            viewModel.enableFab(FabIcon.NEXT, FabAlignmentMode.END)
+        }
+        deviceScanViewModel.nextPage.observe(this) {
+            viewModel.nextPage()
         }
     }
 

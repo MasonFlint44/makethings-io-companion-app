@@ -3,10 +3,6 @@ package things.dev.features.mainpage.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.take
 import things.dev.features.wifi.data.models.WifiScanResult
 import javax.inject.Inject
 
@@ -40,18 +36,14 @@ class MainPageViewModel @Inject constructor() : ViewModel() {
         MutableLiveData<FabIcon>(FabIcon.NEXT)
     }
 
+    fun enableFab(icon: FabIcon, alignment: FabAlignmentMode) {
+        fabIcon.value = icon
+        fabAlignment.value = alignment
+        fabEnabled.value = true
+    }
+
     fun backPressed() {
         onBackPressed()
-    }
-
-    private fun onWifiScanStart() {
-        scanResults.value = emptyList()
-        loading.value = true
-    }
-
-    private fun onWifiScanComplete(scanResults: List<WifiScanResult>) {
-        loading.value = false
-        this.scanResults.value = scanResults
     }
 
     private fun onBackPressed() {
@@ -59,26 +51,12 @@ class MainPageViewModel @Inject constructor() : ViewModel() {
         fabEnabled.value = true
     }
 
-    private fun onPasswordUpdated(password: String) {
-        fabEnabled.value = password.isNotEmpty()
-    }
-
-    private fun onScanResultSelected(scanResult: WifiScanResult) {
-        fabEnabled.value = true
-    }
-
-    private fun onDeviceSelected() {
-        fabIcon.value = FabIcon.WIFI
-        fabAlignment.value = FabAlignmentMode.CENTER
-        fabEnabled.value = true
-    }
-
-    private fun nextPage() {
+    fun nextPage() {
         if (pageIndex.value == pageCount.value?.minus(1)) { return }
         pageIndex.value = pageIndex.value?.plus(1)
     }
 
-    private fun prevPage() {
+    fun prevPage() {
         if (pageIndex.value == 0) { return }
         pageIndex.value = pageIndex.value?.minus(1)
     }

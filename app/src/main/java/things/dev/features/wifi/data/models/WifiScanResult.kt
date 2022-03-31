@@ -18,8 +18,8 @@ class WifiScanResult(val ssid: String, val bssid: String, exactFreq: Int, val ex
 
     private fun getWifiFreq(freq: Int): WifiFreq {
         return when {
-            freq / 5000 == 1 -> WifiFreq.FREQ_5_GHZ
-            freq / 2400 == 1 -> WifiFreq.FREQ_2_4_GHZ
+            freq >= 5000 -> WifiFreq.FREQ_5_GHZ
+            freq >= 2400 -> WifiFreq.FREQ_2_4_GHZ
             else -> WifiFreq.OTHER
         }
     }
