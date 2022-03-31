@@ -7,7 +7,7 @@ import androidx.viewpager2.widget.ViewPager2
 import things.dev.R
 import things.dev.features.devicescan.ui.DeviceScanFragment
 import things.dev.features.wifilogin.view.WifiLoginFragment
-import things.dev.features.wifiscan.view.WifiScanFragment
+import things.dev.features.wifiscan.ui.WifiScanFragment
 import javax.inject.Inject
 
 class WizardPagerAdapter @Inject constructor(fa: FragmentActivity) : FragmentStateAdapter(fa) {

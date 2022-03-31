@@ -1,4 +1,4 @@
-package things.dev.features.wifiscan.view
+package things.dev.features.wifiscan.ui
 
 import android.content.Context
 import android.view.LayoutInflater

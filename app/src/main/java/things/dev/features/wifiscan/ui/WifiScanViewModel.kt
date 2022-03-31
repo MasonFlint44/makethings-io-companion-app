@@ -1,4 +1,4 @@
-package things.dev.features.wifiscan.view
+package things.dev.features.wifiscan.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
