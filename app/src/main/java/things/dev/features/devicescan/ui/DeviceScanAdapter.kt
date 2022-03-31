@@ -1,4 +1,4 @@
-package things.dev.features.devicescan.view
+package things.dev.features.devicescan.ui
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,15 +9,17 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.qualifiers.ActivityContext
 import things.dev.R
 import things.dev.features.wifi.data.models.WifiFreq
 import things.dev.features.wifi.data.models.WifiLevel
 import things.dev.features.wifi.data.models.WifiScanResult
+import javax.inject.Inject
 
-class DeviceScanAdapter(
-    private val context: Context,
-    private val onItemClicked: (WifiScanResult, Int) -> Unit
+class DeviceScanAdapter @Inject constructor(
+    @ActivityContext private val context: Context,
 ): RecyclerView.Adapter<DeviceScanAdapter.ViewHolder>() {
     inner class ViewHolder(
         view: View,
@@ -72,6 +74,9 @@ class DeviceScanAdapter(
             field = value
             notifyItemRangeInserted(0, value.count())
         }
+    val itemClicked: MutableLiveData<ScanResultClicked> by lazy {
+        MutableLiveData<ScanResultClicked>()
+    }
 
     fun setLoading(position: Int, isLoading: Boolean) {
         isItemLoading[position] = isLoading
@@ -83,7 +88,7 @@ class DeviceScanAdapter(
         val inflater = LayoutInflater.from(context)
         val scanResultView = inflater.inflate(R.layout.device_scan_result, parent, false)
         return ViewHolder(scanResultView) {
-            onItemClicked(scanResults[it], it)
+            itemClicked.value = ScanResultClicked(it, scanResults[it])
         }
     }
 
