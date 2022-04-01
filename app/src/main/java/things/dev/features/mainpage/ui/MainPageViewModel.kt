@@ -26,9 +26,6 @@ class MainPageViewModel @Inject constructor() : ViewModel() {
     val fabAlignment: MutableLiveData<FabAlignmentMode> by lazy {
         MutableLiveData<FabAlignmentMode>(FabAlignmentMode.END)
     }
-    val scanResults: MutableLiveData<List<WifiScanResult>> by lazy {
-        MutableLiveData<List<WifiScanResult>>()
-    }
     val loading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
     }
@@ -36,17 +33,19 @@ class MainPageViewModel @Inject constructor() : ViewModel() {
         MutableLiveData<FabIcon>(FabIcon.NEXT)
     }
 
-    fun enableFab(icon: FabIcon, alignment: FabAlignmentMode) {
-        fabIcon.value = icon
-        fabAlignment.value = alignment
+    fun enableFab(icon: FabIcon? = null, alignment: FabAlignmentMode? = null) {
         fabEnabled.value = true
+        icon?.let { fabIcon.value = it }
+        alignment?.let { fabAlignment.value = it }
+    }
+
+    fun disableFab(icon: FabIcon? = null, alignment: FabAlignmentMode? = null) {
+        fabEnabled.value = false
+        icon?.let { fabIcon.value = it }
+        alignment?.let { fabAlignment.value = it }
     }
 
     fun backPressed() {
-        onBackPressed()
-    }
-
-    private fun onBackPressed() {
         prevPage()
         fabEnabled.value = true
     }
@@ -54,6 +53,7 @@ class MainPageViewModel @Inject constructor() : ViewModel() {
     fun nextPage() {
         if (pageIndex.value == pageCount.value?.minus(1)) { return }
         pageIndex.value = pageIndex.value?.plus(1)
+        disableFab()
     }
 
     fun prevPage() {

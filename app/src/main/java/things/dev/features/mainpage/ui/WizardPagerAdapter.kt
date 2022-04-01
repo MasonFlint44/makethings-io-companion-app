@@ -10,12 +10,17 @@ import things.dev.features.wifilogin.view.WifiLoginFragment
 import things.dev.features.wifiscan.ui.WifiScanFragment
 import javax.inject.Inject
 
-class WizardPagerAdapter @Inject constructor(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+class WizardPagerAdapter @Inject constructor(
+    fa: FragmentActivity,
+    deviceScanFragment: DeviceScanFragment,
+    wifiScanFragment: WifiScanFragment,
+    wifiLoginFragment: WifiLoginFragment
+) : FragmentStateAdapter(fa) {
     private val pager = fa.findViewById<ViewPager2>(R.id.wizardPager)
     private val pages: List<Fragment> = listOf(
-        DeviceScanFragment(),
-        WifiScanFragment(),
-        WifiLoginFragment()
+        deviceScanFragment,
+        wifiScanFragment,
+        wifiLoginFragment,
     )
     var pageIndex = 0
         set(value) {

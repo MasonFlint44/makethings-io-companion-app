@@ -15,14 +15,19 @@ import things.dev.R
 import things.dev.features.wifi.framework.models.WifiFreq
 import things.dev.features.wifi.framework.models.WifiLevel
 import things.dev.features.wifi.framework.models.WifiSecurity
+import javax.inject.Inject
 
-class WifiLoginFragment : Fragment() {
+class WifiLoginFragment @Inject constructor() : Fragment() {
     private val viewModel: WifiLoginViewModel by activityViewModels()
     private lateinit var passwordText: TextView
     private lateinit var scanResultText: TextView
     private lateinit var scanResultFreq: TextView
     private lateinit var scanResultLevel: ImageView
     private lateinit var loadingSpinner: ProgressBar
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

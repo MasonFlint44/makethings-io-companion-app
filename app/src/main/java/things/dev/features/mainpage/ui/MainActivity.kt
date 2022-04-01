@@ -3,18 +3,25 @@ package things.dev.features.mainpage.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.Lazy
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import things.dev.R
 import things.dev.features.devicescan.ui.DeviceScanViewModel
+import things.dev.features.wifi.WifiService
+import things.dev.features.wifiscan.ui.WifiScanViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainPageViewModel by viewModels()
     private val deviceScanViewModel: DeviceScanViewModel by viewModels()
+    private val wifiScanViewModel: WifiScanViewModel by viewModels()
 
     private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var bottomAppBar: BottomAppBar
@@ -22,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     // Needs to be lazily instantiated because its constructor calls findViewById
     // which needs to be called after setContentView
     @Inject lateinit var wizardPagerAdapter: Lazy<WizardPagerAdapter>
+    @Inject lateinit var wifiService: WifiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         floatingActionButton.setOnClickListener {
             viewModel.fabClicked.value = true
             deviceScanViewModel.fabClicked.value = true
+            wifiScanViewModel.fabClicked.value = true
         }
 
         viewModel.pageIndex.observe(this) {
@@ -64,6 +73,24 @@ class MainActivity : AppCompatActivity() {
         }
         deviceScanViewModel.nextPage.observe(this) {
             viewModel.nextPage()
+        }
+
+        wifiScanViewModel.scanResultSelected.observe(this) {
+            viewModel.enableFab(FabIcon.NEXT, FabAlignmentMode.END)
+        }
+        wifiScanViewModel.nextPage.observe(this) {
+            viewModel.nextPage()
+        }
+
+        lifecycleScope.launch {
+            deviceScanViewModel.loading.value = true
+            wifiScanViewModel.loading.value = true
+            wifiService.startScan()
+                .onEach {
+                    deviceScanViewModel.setScanResults(it)
+                    wifiScanViewModel.setScanResults(it)
+                }
+                .collect()
         }
     }
 

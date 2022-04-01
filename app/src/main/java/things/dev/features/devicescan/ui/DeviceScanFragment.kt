@@ -2,6 +2,7 @@ package things.dev.features.devicescan.ui
 
 import android.net.Network
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,14 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import things.dev.R
 import things.dev.features.wifi.WifiService
 import things.dev.features.wifi.framework.models.WifiScanResult
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DeviceScanFragment : Fragment() {
+class DeviceScanFragment @Inject constructor(): Fragment() {
     private val viewModel: DeviceScanViewModel by activityViewModels()
     private lateinit var scanResultsView: RecyclerView
     private lateinit var wifiScanProgress: ProgressBar
@@ -58,7 +58,8 @@ class DeviceScanFragment : Fragment() {
                 wifiScanProgress.visibility = View.GONE
             }
         }
-        viewModel.fabClicked.observe(viewLifecycleOwner) {
+        viewModel.fabClicked.observe(viewLifecycleOwner) onFabClicked@ {
+            if (viewModel.isVisible.value != true) { return@onFabClicked }
             when (viewModel.deviceConnected.value) {
                 null -> {
                     viewModel.deviceSelected.value?.let { clicked ->
@@ -72,6 +73,7 @@ class DeviceScanFragment : Fragment() {
                     viewModel.nextPage.value = true
                 }
             }
+            Log.d(tag, "DeviceScanFragment fab clicked")
         }
         viewModel.deviceConnected.observe(viewLifecycleOwner) {
             viewModel.deviceSelected.value?.let {
@@ -80,13 +82,6 @@ class DeviceScanFragment : Fragment() {
         }
         viewModel.scanResultLoading.observe(viewLifecycleOwner) {
             scanResultsAdapter.setLoading(it.position, it.isLoading)
-        }
-
-        lifecycleScope.launch {
-            viewModel.loading.value = true
-            wifiService.startScan()
-                .onEach { viewModel.setScanResults(it) }
-                .collect()
         }
 
         return inflater.inflate(R.layout.device_scan_fragment, container, false)
@@ -101,7 +96,19 @@ class DeviceScanFragment : Fragment() {
         scanResultsView.itemAnimator = OvershootInRightAnimator()
 
         wifiScanProgress = view.findViewById(R.id.wifiScanProgress)
-        emptyResultsMessage = view.findViewById(R.id.emtpyResultsMessage)
+        emptyResultsMessage = view.findViewById(R.id.emptyResultsMessage)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.isVisible.value = true
+        Log.d(tag, "DeviceScanFragment resumed")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isVisible.value = false
+        Log.d(tag, "DeviceScanFragment paused")
     }
 
     private fun connectToDevice(device: WifiScanResult): Flow<Network> {

@@ -37,6 +37,9 @@ class DeviceScanViewModel @Inject constructor(): ViewModel() {
     val nextPage: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
+    val isVisible: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
 
     fun setScanResults(scanResults: List<WifiScanResult>) {
         this.scanResults.value = filterScanResults(scanResults)
