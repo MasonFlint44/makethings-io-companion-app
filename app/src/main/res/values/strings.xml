@@ -8,4 +8,5 @@
     <string name="no_devices_found">No devices found</string>
     <string name="password">password</string>
     <string name="connect_to_network">Connect to network:</string>
+    <string name="no_networks_found">No networks found</string>
 </resources>

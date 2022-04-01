@@ -1,35 +1,27 @@
-package things.dev.features.devicescan.ui
+package things.dev.features.wifiscan.ui
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import things.dev.features.wifi.framework.models.WifiFreq
 import things.dev.features.wifi.framework.models.WifiScanResult
 import javax.inject.Inject
 
-data class ScanResultLoading(val position: Int, val isLoading: Boolean)
-data class ScanResultClicked(val position: Int, val scanResult: WifiScanResult)
-
 @HiltViewModel
-class DeviceScanViewModel @Inject constructor(): ViewModel() {
+class WifiScanViewModel @Inject constructor(): ViewModel() {
     private val deviceSsid = "things.dev"
 
     val scanResults: MutableLiveData<List<WifiScanResult>> by lazy {
         MutableLiveData<List<WifiScanResult>>()
     }
-    val isEmpty: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
-    }
     val loading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
-    val deviceSelected: MutableLiveData<ScanResultClicked> by lazy {
-        MutableLiveData<ScanResultClicked>()
-    }
-    val scanResultLoading: MutableLiveData<ScanResultLoading> by lazy {
-        MutableLiveData<ScanResultLoading>()
-    }
-    val deviceConnected: MutableLiveData<WifiScanResult> by lazy {
+    val scanResultSelected: MutableLiveData<WifiScanResult> by lazy {
         MutableLiveData<WifiScanResult>()
+    }
+    val isEmpty: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
     }
     val fabClicked: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
@@ -48,9 +40,9 @@ class DeviceScanViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun filterScanResults(scanResults: List<WifiScanResult>): List<WifiScanResult> {
-        return scanResults.filter {
-            it.ssid == deviceSsid && it.freq == WifiFreq.FREQ_2_4_GHZ
-        }.sortedByDescending { it.exactLevel }
+        return scanResults.filter { it.ssid != deviceSsid }
+            .sortedByDescending { it.exactLevel }
+            .sortedBy { it.freq }
     }
 
     private fun setIsEmpty(scanResults: List<WifiScanResult>) {

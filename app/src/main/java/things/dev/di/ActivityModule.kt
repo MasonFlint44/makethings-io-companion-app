@@ -5,13 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import things.dev.features.permissions.data.AndroidPermissionService
-import things.dev.features.permissions.data.PermissionService
+import things.dev.features.permissions.framework.AndroidPermissionService
+import things.dev.features.permissions.framework.PermissionService
 
 @Module
 @InstallIn(ActivityComponent::class)

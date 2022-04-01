@@ -1,4 +1,4 @@
-package things.dev.features.permissions.data
+package things.dev.features.permissions.framework
 
 import android.app.Activity
 import android.content.pm.PackageManager
