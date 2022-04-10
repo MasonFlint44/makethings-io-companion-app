@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
 import things.dev.R
-import things.dev.features.wifi.WifiService
+import things.dev.features.wifi.framework.WifiService
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -84,12 +84,10 @@ class WifiScanFragment @Inject constructor(): Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.isVisible.value = true
-        Log.d(tag, "WifiScanFragment resumed")
     }
 
     override fun onPause() {
         super.onPause()
         viewModel.isVisible.value = false
-        Log.d(tag, "WifiScanFragment paused")
     }
 }

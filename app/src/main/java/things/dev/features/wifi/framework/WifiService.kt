@@ -1,4 +1,4 @@
-package things.dev.features.wifi
+package things.dev.features.wifi.framework
 
 import android.Manifest
 import android.content.*
@@ -21,7 +21,11 @@ import things.dev.features.wifi.framework.models.WifiScanResult
 import things.dev.features.wifi.framework.models.WifiSecurity
 import javax.inject.Inject
 
-class WifiService @Inject constructor(@ActivityContext context: Context, private val lifecycleScope: LifecycleCoroutineScope) : ContextWrapper(context) {
+class WifiService @Inject constructor(
+    @ActivityContext context: Context,
+    private val lifecycleScope: LifecycleCoroutineScope,
+    private val networkCallbackProxyFactory: NetworkCallbackProxyFactory,
+) : ContextWrapper(context) {
     private val tag = "WifiService"
     private val wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
     private val connectivityManager = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -58,8 +62,15 @@ class WifiService @Inject constructor(@ActivityContext context: Context, private
     ): NetworkCallbacks {
         val network = buildNetworkSpecifier(ssid, bssid, password, security)
         val request = buildNetworkRequest(network, !isLocal)
-        val callbacks = NetworkCallbacks(lifecycleScope, this)
-        connectivityManager.requestNetwork(request, callbacks.networkCallback)
+        val callbacks = NetworkCallbacks(
+            lifecycleScope,
+            this,
+            networkCallbackProxyFactory.getNetworkCallbackProxy()
+        )
+        connectivityManager.requestNetwork(
+            request,
+            callbacks.networkCallback
+        )
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
             if (isLocal) {
                 callbacks.available
@@ -80,7 +91,9 @@ class WifiService @Inject constructor(@ActivityContext context: Context, private
     }
 
     fun unregisterNetworkCallbacks(callbacks: NetworkCallbacks) {
-        connectivityManager.unregisterNetworkCallback(callbacks.networkCallback)
+        connectivityManager.unregisterNetworkCallback(
+            callbacks.networkCallback
+        )
     }
 
     fun disconnect() {
@@ -121,9 +134,11 @@ class WifiService @Inject constructor(@ActivityContext context: Context, private
         val callbacks = NetworkCallbacks(
             lifecycleScope,
             this,
-            ConnectivityManager.NetworkCallback.FLAG_INCLUDE_LOCATION_INFO
+            networkCallbackProxyFactory.getNetworkCallbackProxy()
         )
-        connectivityManager.registerDefaultNetworkCallback(callbacks.networkCallback)
+        connectivityManager.registerDefaultNetworkCallback(
+            callbacks.networkCallback
+        )
 
         return callbacks.capabilitiesChanged
             .map { it.networkCapabilities }
