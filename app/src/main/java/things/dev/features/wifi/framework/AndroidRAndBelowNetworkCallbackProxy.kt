@@ -10,23 +10,23 @@ import javax.inject.Inject
 import javax.inject.Named
 
 class AndroidRAndBelowNetworkCallbackProxy : ConnectivityManager.NetworkCallback(), NetworkCallbackProxy {
-    override var onAvailable: ((Network) -> Unit)? = null
-    override var onBlockedStatusChanged: ((Network, Boolean) -> Unit)? = null
-    override var onCapabilitiesChanged: ((Network, NetworkCapabilities) -> Unit)? = null
-    override var onLinkPropertiesChanged: ((Network, LinkProperties) -> Unit)? = null
-    override var onLosing: ((Network, Int) -> Unit)? = null
-    override var onLost: ((Network) -> Unit)? = null
-    override var onUnavailable: (() -> Unit)? = null
+    override var onAvailable: ((Available) -> Unit)? = null
+    override var onBlockedStatusChanged: ((BlockedStatusChanged) -> Unit)? = null
+    override var onCapabilitiesChanged: ((CapabilitiesChanged) -> Unit)? = null
+    override var onLinkPropertiesChanged: ((LinkPropertiesChanged) -> Unit)? = null
+    override var onLosing: ((Losing) -> Unit)? = null
+    override var onLost: ((Lost) -> Unit)? = null
+    override var onUnavailable: ((Unavailable) -> Unit)? = null
     override val networkCallback: ConnectivityManager.NetworkCallback = this
 
     override fun onAvailable(network: Network) {
         super.onAvailable(network)
-        onAvailable?.invoke(network)
+        onAvailable?.invoke(Available(network))
     }
 
     override fun onBlockedStatusChanged(network: Network, blocked: Boolean) {
         super.onBlockedStatusChanged(network, blocked)
-        onBlockedStatusChanged?.invoke(network, blocked)
+        onBlockedStatusChanged?.invoke(BlockedStatusChanged(network, blocked))
     }
 
     override fun onCapabilitiesChanged(
@@ -34,26 +34,26 @@ class AndroidRAndBelowNetworkCallbackProxy : ConnectivityManager.NetworkCallback
         networkCapabilities: NetworkCapabilities
     ) {
         super.onCapabilitiesChanged(network, networkCapabilities)
-        onCapabilitiesChanged?.invoke(network, networkCapabilities)
+        onCapabilitiesChanged?.invoke(CapabilitiesChanged(network, networkCapabilities))
     }
 
     override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
         super.onLinkPropertiesChanged(network, linkProperties)
-        onLinkPropertiesChanged?.invoke(network, linkProperties)
+        onLinkPropertiesChanged?.invoke(LinkPropertiesChanged(network, linkProperties))
     }
 
     override fun onLosing(network: Network, maxMsToLive: Int) {
         super.onLosing(network, maxMsToLive)
-        onLosing?.invoke(network, maxMsToLive)
+        onLosing?.invoke(Losing(network, maxMsToLive))
     }
 
     override fun onLost(network: Network) {
         super.onLost(network)
-        onLost?.invoke(network)
+        onLost?.invoke(Lost(network))
     }
 
     override fun onUnavailable() {
         super.onUnavailable()
-        onUnavailable?.invoke()
+        onUnavailable?.invoke(Unavailable())
     }
 }
