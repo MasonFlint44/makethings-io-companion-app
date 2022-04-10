@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import things.dev.R
 import things.dev.features.devicescan.ui.DeviceScanFragment
-import things.dev.features.wifilogin.view.WifiLoginFragment
+import things.dev.features.wifilogin.ui.WifiLoginFragment
 import things.dev.features.wifiscan.ui.WifiScanFragment
 import javax.inject.Inject
 
