@@ -1,18 +1,11 @@
-package things.dev.features.wifi.framework
+package things.dev.features.oldwifi.framework
 
 import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.os.Build
-import androidx.annotation.RequiresApi
-import javax.inject.Inject
-import javax.inject.Named
 
-@RequiresApi(Build.VERSION_CODES.S)
-class AndroidSAndAboveNetworkCallbackProxy constructor(
-    flags: Int
-) : ConnectivityManager.NetworkCallback(flags), NetworkCallbackProxy {
+class AndroidRAndBelowNetworkCallbackProxy : ConnectivityManager.NetworkCallback(), NetworkCallbackProxy {
     override var onAvailable: ((Available) -> Unit)? = null
     override var onBlockedStatusChanged: ((BlockedStatusChanged) -> Unit)? = null
     override var onCapabilitiesChanged: ((CapabilitiesChanged) -> Unit)? = null

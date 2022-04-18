@@ -3,7 +3,6 @@ package things.dev.features.mainpage.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import things.dev.features.wifi.framework.models.WifiScanResult
 import javax.inject.Inject
 
 enum class FabAlignmentMode { CENTER, END, }

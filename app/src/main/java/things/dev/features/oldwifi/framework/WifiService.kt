@@ -1,4 +1,4 @@
-package things.dev.features.wifi.framework
+package things.dev.features.oldwifi.framework
 
 import android.Manifest
 import android.content.*
@@ -17,8 +17,8 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
-import things.dev.features.wifi.framework.models.WifiScanResult
-import things.dev.features.wifi.framework.models.WifiSecurity
+import things.dev.features.oldwifi.framework.models.WifiScanResult
+import things.dev.features.oldwifi.framework.models.WifiSecurity
 import javax.inject.Inject
 
 class WifiService @Inject constructor(

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
 import things.dev.R
-import things.dev.features.wifi.framework.WifiService
+import things.dev.features.oldwifi.framework.WifiService
 import javax.inject.Inject
 
 @AndroidEntryPoint

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import things.dev.R
 import things.dev.features.devicescan.ui.DeviceScanViewModel
-import things.dev.features.wifi.framework.WifiService
+import things.dev.features.oldwifi.framework.WifiService
 import things.dev.features.wifilogin.ui.WifiLoginViewModel
 import things.dev.features.wifiscan.ui.WifiScanViewModel
 import javax.inject.Inject

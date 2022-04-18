@@ -17,8 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
 import kotlinx.coroutines.flow.*
 import things.dev.R
-import things.dev.features.wifi.framework.WifiService
-import things.dev.features.wifi.framework.models.WifiScanResult
+import things.dev.features.oldwifi.framework.WifiService
+import things.dev.features.oldwifi.framework.models.WifiScanResult
 import javax.inject.Inject
 
 @AndroidEntryPoint

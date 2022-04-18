@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.qualifiers.ActivityContext
 import things.dev.R
 import things.dev.features.devicescan.ui.ScanResultClicked
-import things.dev.features.wifi.framework.models.WifiFreq
-import things.dev.features.wifi.framework.models.WifiLevel
-import things.dev.features.wifi.framework.models.WifiScanResult
-import things.dev.features.wifi.framework.models.WifiSecurity
+import things.dev.features.oldwifi.framework.models.WifiFreq
+import things.dev.features.oldwifi.framework.models.WifiLevel
+import things.dev.features.oldwifi.framework.models.WifiScanResult
+import things.dev.features.oldwifi.framework.models.WifiSecurity
 import javax.inject.Inject
 
 class WifiScanAdapter @Inject constructor(

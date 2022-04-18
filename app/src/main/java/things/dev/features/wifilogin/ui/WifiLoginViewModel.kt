@@ -2,7 +2,7 @@ package things.dev.features.wifilogin.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import things.dev.features.wifi.framework.models.WifiScanResult
+import things.dev.features.oldwifi.framework.models.WifiScanResult
 
 class WifiLoginViewModel : ViewModel() {
     val scanResult: MutableLiveData<WifiScanResult> by lazy {

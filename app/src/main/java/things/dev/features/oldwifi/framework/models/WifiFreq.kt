@@ -1,4 +1,4 @@
-package things.dev.features.wifi.framework.models
+package things.dev.features.oldwifi.framework.models
 
 enum class WifiFreq {
     FREQ_2_4_GHZ,

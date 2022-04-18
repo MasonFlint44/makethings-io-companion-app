@@ -16,11 +16,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.*
 import things.dev.R
-import things.dev.features.wifi.framework.WifiService
-import things.dev.features.wifi.framework.models.WifiFreq
-import things.dev.features.wifi.framework.models.WifiLevel
-import things.dev.features.wifi.framework.models.WifiScanResult
-import things.dev.features.wifi.framework.models.WifiSecurity
+import things.dev.features.oldwifi.framework.WifiService
+import things.dev.features.oldwifi.framework.models.WifiFreq
+import things.dev.features.oldwifi.framework.models.WifiLevel
+import things.dev.features.oldwifi.framework.models.WifiScanResult
+import things.dev.features.oldwifi.framework.models.WifiSecurity
 import javax.inject.Inject
 
 class WifiLoginFragment @Inject constructor() : Fragment() {

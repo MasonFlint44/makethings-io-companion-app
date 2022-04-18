@@ -1,4 +1,4 @@
-package things.dev.features.wifi.framework
+package things.dev.features.oldwifi.framework
 
 import android.net.ConnectivityManager
 import android.net.LinkProperties

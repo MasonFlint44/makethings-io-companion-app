@@ -2,8 +2,8 @@ package things.dev.features.devicescan.ui
 
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import things.dev.features.wifi.framework.models.WifiFreq
-import things.dev.features.wifi.framework.models.WifiScanResult
+import things.dev.features.oldwifi.framework.models.WifiFreq
+import things.dev.features.oldwifi.framework.models.WifiScanResult
 import javax.inject.Inject
 
 data class ScanResultLoading(val position: Int, val isLoading: Boolean)
