@@ -1,4 +1,4 @@
-package things.dev.features.wifiutils
+package things.dev.features.wifiutils.framework
 
 import kotlinx.coroutines.flow.Flow
 import things.dev.features.oldwifi.framework.models.WifiScanResult

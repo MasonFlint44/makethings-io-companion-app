@@ -53,6 +53,7 @@ class WifiService @Inject constructor(
 
     // TODO: need to wifiManger.setWifiEnabled() when app is running if wifiManager.isWifiEnabled() == False
     // TODO: move location permissions request to WifiService
+    @RequiresApi(Build.VERSION_CODES.Q)
     fun requestNetwork(
         ssid: String? = null,
         bssid: String? = null,
@@ -155,7 +156,8 @@ class WifiService @Inject constructor(
             )
         }
 
-        val capabilities = if (Build.VERSION.SDK_INT < 31) getNetworkCapabilitiesSdk30AndBelow() else coroutineScope { getNetworkCapabilitiesSdk31AndUp() }
+        val capabilities = if (Build.VERSION.SDK_INT < 31) getNetworkCapabilitiesSdk30AndBelow()
+            else coroutineScope { getNetworkCapabilitiesSdk31AndUp() }
 
         val wifiInfo = capabilities?.transportInfo
         if (wifiInfo !is WifiInfo) {
@@ -239,15 +241,13 @@ class WifiService @Inject constructor(
         return builder.build()
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun buildNetworkSpecifier(
         ssid: String? = null,
         bssid: String? = null,
         password: String? = null,
         security: WifiSecurity? = null
     ): WifiNetworkSpecifier? {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-            return null
-        }
         val builder = WifiNetworkSpecifier.Builder()
         if (ssid != null) {
             builder.setSsid(ssid)

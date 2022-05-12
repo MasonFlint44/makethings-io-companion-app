@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/things.dev.iml" filepath="$PROJECT_DIR$/.idea/modules/things.dev.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/things.dev.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/things.dev.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/things.dev.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/things.dev.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/things.dev.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/things.dev.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/things.dev.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/things.dev.app.unitTest.iml" />
     </modules>
   </component>
 </project>
